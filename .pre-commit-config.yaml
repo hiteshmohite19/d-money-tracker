@@ -1,0 +1,58 @@
+# Pre-commit hooks configuration
+# Install: pre-commit install
+# Run manually: pre-commit run --all-files
+
+repos:
+  # Ruff - Fast Python linter and formatter
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.15
+    hooks:
+      # Run the linter
+      - id: ruff
+        args: [--fix]
+        name: ruff-lint
+      # Run the formatter
+      - id: ruff-format
+        name: ruff-format
+
+  # Django-specific checks
+  - repo: local
+    hooks:
+      # Run Django system checks
+      - id: django-check
+        name: Django system check
+        entry: python manage.py check
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      # Run Django migrations check
+      - id: django-migrations-check
+        name: Check for missing migrations
+        entry: python manage.py makemigrations --check --dry-run --no-input
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      # Run pytest
+      - id: pytest
+        name: Run unit tests
+        entry: pytest
+        language: system
+        pass_filenames: false
+        always_run: true
+        verbose: true
+
+  # Standard pre-commit hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+        args: ['--maxkb=1000']
+      - id: check-merge-conflict
+      - id: check-json
+      - id: check-toml
+      - id: detect-private-key

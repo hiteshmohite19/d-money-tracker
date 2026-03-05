@@ -1,0 +1,85 @@
+# ---------------------------------------------------------------------------
+# pyproject.toml  –  dmoneytracker
+# ---------------------------------------------------------------------------
+# Install all deps:        pip install -e ".[dev]"
+# Production only:         pip install -e .
+# ---------------------------------------------------------------------------
+
+[build-system]
+requires   = ["setuptools>=69.0"]
+build-backend = "setuptools.build_meta"
+
+# ---------------------------------------------------------------------------
+# Project metadata
+# ---------------------------------------------------------------------------
+[project]
+name            = "dmoneytracker"
+version         = "0.1.0"
+description     = "Production-ready Django REST Framework money-tracker application"
+readme          = "README.md"
+requires-python = ">=3.12"
+
+dependencies = [
+    "Django>=5.1",
+    "djangorestframework",
+    "drf-nested-routers",       # nested routing for DRF
+    "drf-spectacular",          # OpenAPI 3.0 schema generation
+    "psycopg2-binary",          # PostgreSQL adapter
+    "python-decouple",          # .env loader
+    "whitenoise[brotli]",       # production static-file serving
+    "gunicorn",                # production WSGI server
+    "Pillow",                  # image handling
+    "django-cors-headers",      # CORS support
+    "PyJWT",                   # JWT token handling
+]
+
+[project.optional-dependencies]
+dev = [
+    "django-debug-toolbar",
+    "ipython",
+    "pytest>=7.0",
+    "pytest-django>=4.5",
+    "pytest-cov>=4.0",
+    "pre-commit>=3.0",
+    "ruff>=0.1.0",
+]
+
+# ---------------------------------------------------------------------------
+# Setuptools – package discovery
+# ---------------------------------------------------------------------------
+[tool.setuptools.packages.find]
+where   = ["."]
+exclude = ["static*", "templates*", "media*", "logs*", "staticfiles*"]
+
+# ---------------------------------------------------------------------------
+# Tool config (linting / formatting hints)
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]       # pycodestyle + pyflakes + isort
+ignore = ["E501"]                   # line too long (handled by formatter)
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+# ---------------------------------------------------------------------------
+# Pytest configuration
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "dmoneytracker.settings.dev"
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
+addopts = [
+    "--verbose",
+    "--strict-markers",
+    "--tb=short",
+    "--cov=apps",
+    "--cov-report=term-missing",
+    "--cov-fail-under=0",  # Set to desired coverage threshold
+]
+testpaths = ["apps"]

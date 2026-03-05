@@ -1,0 +1,2723 @@
+openapi: 3.0.3
+info:
+  title: dMoneyTracker API
+  version: 1.0.0
+  description: Production-ready Django REST Framework money-tracker application
+paths:
+  /api/categories/:
+    get:
+      operationId: categories_list
+      description: |-
+        ViewSet for managing categories.
+
+        Provides CRUD operations:
+        - list: GET /api/categories/
+        - create: POST /api/categories/
+        - retrieve: GET /api/categories/{id}/
+        - update: PUT /api/categories/{id}/
+        - partial_update: PATCH /api/categories/{id}/
+        - destroy: DELETE /api/categories/{id}/
+
+        Custom actions:
+        - active: GET /api/categories/active/ — list only active categories
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - categories
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCategoryListList'
+          description: ''
+    post:
+      operationId: categories_create
+      description: |-
+        ViewSet for managing categories.
+
+        Provides CRUD operations:
+        - list: GET /api/categories/
+        - create: POST /api/categories/
+        - retrieve: GET /api/categories/{id}/
+        - update: PUT /api/categories/{id}/
+        - partial_update: PATCH /api/categories/{id}/
+        - destroy: DELETE /api/categories/{id}/
+
+        Custom actions:
+        - active: GET /api/categories/active/ — list only active categories
+      tags:
+      - categories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CategoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CategoryRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+  /api/categories/{id}/:
+    get:
+      operationId: categories_retrieve
+      description: |-
+        ViewSet for managing categories.
+
+        Provides CRUD operations:
+        - list: GET /api/categories/
+        - create: POST /api/categories/
+        - retrieve: GET /api/categories/{id}/
+        - update: PUT /api/categories/{id}/
+        - partial_update: PATCH /api/categories/{id}/
+        - destroy: DELETE /api/categories/{id}/
+
+        Custom actions:
+        - active: GET /api/categories/active/ — list only active categories
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Category.
+        required: true
+      tags:
+      - categories
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+    put:
+      operationId: categories_update
+      description: |-
+        ViewSet for managing categories.
+
+        Provides CRUD operations:
+        - list: GET /api/categories/
+        - create: POST /api/categories/
+        - retrieve: GET /api/categories/{id}/
+        - update: PUT /api/categories/{id}/
+        - partial_update: PATCH /api/categories/{id}/
+        - destroy: DELETE /api/categories/{id}/
+
+        Custom actions:
+        - active: GET /api/categories/active/ — list only active categories
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Category.
+        required: true
+      tags:
+      - categories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CategoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CategoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CategoryRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+    patch:
+      operationId: categories_partial_update
+      description: |-
+        ViewSet for managing categories.
+
+        Provides CRUD operations:
+        - list: GET /api/categories/
+        - create: POST /api/categories/
+        - retrieve: GET /api/categories/{id}/
+        - update: PUT /api/categories/{id}/
+        - partial_update: PATCH /api/categories/{id}/
+        - destroy: DELETE /api/categories/{id}/
+
+        Custom actions:
+        - active: GET /api/categories/active/ — list only active categories
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Category.
+        required: true
+      tags:
+      - categories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCategoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCategoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCategoryRequest'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+    delete:
+      operationId: categories_destroy
+      description: |-
+        ViewSet for managing categories.
+
+        Provides CRUD operations:
+        - list: GET /api/categories/
+        - create: POST /api/categories/
+        - retrieve: GET /api/categories/{id}/
+        - update: PUT /api/categories/{id}/
+        - partial_update: PATCH /api/categories/{id}/
+        - destroy: DELETE /api/categories/{id}/
+
+        Custom actions:
+        - active: GET /api/categories/active/ — list only active categories
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Category.
+        required: true
+      tags:
+      - categories
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '204':
+          description: No response body
+  /api/categories/active/:
+    get:
+      operationId: categories_active_retrieve
+      description: Return only active categories.
+      tags:
+      - categories
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+          description: ''
+  /api/subcategories/:
+    get:
+      operationId: subcategories_list
+      description: |-
+        ViewSet for managing subcategories.
+
+        Provides CRUD operations:
+        - list: GET /api/subcategories/
+        - create: POST /api/subcategories/
+        - retrieve: GET /api/subcategories/{id}/
+        - update: PUT /api/subcategories/{id}/
+        - partial_update: PATCH /api/subcategories/{id}/
+        - destroy: DELETE /api/subcategories/{id}/
+
+        Custom actions:
+        - active: GET /api/subcategories/active/ — list only active subcategories
+        - by_category: GET /api/subcategories/by_category/?category={id} — filter by category
+        - by_user: GET /api/subcategories/by_user/?user={id} — filter by user
+        - soft_delete: POST /api/subcategories/{id}/soft_delete/ — soft delete
+        - restore: POST /api/subcategories/{id}/restore/ — restore soft-deleted
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - subcategories
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSubCategoryListList'
+          description: ''
+    post:
+      operationId: subcategories_create
+      description: |-
+        ViewSet for managing subcategories.
+
+        Provides CRUD operations:
+        - list: GET /api/subcategories/
+        - create: POST /api/subcategories/
+        - retrieve: GET /api/subcategories/{id}/
+        - update: PUT /api/subcategories/{id}/
+        - partial_update: PATCH /api/subcategories/{id}/
+        - destroy: DELETE /api/subcategories/{id}/
+
+        Custom actions:
+        - active: GET /api/subcategories/active/ — list only active subcategories
+        - by_category: GET /api/subcategories/by_category/?category={id} — filter by category
+        - by_user: GET /api/subcategories/by_user/?user={id} — filter by user
+        - soft_delete: POST /api/subcategories/{id}/soft_delete/ — soft delete
+        - restore: POST /api/subcategories/{id}/restore/ — restore soft-deleted
+      tags:
+      - subcategories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubCategoryCreateUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubCategoryCreateUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubCategoryCreateUpdateRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubCategoryCreateUpdate'
+          description: ''
+  /api/subcategories/{id}/:
+    get:
+      operationId: subcategories_retrieve
+      description: |-
+        ViewSet for managing subcategories.
+
+        Provides CRUD operations:
+        - list: GET /api/subcategories/
+        - create: POST /api/subcategories/
+        - retrieve: GET /api/subcategories/{id}/
+        - update: PUT /api/subcategories/{id}/
+        - partial_update: PATCH /api/subcategories/{id}/
+        - destroy: DELETE /api/subcategories/{id}/
+
+        Custom actions:
+        - active: GET /api/subcategories/active/ — list only active subcategories
+        - by_category: GET /api/subcategories/by_category/?category={id} — filter by category
+        - by_user: GET /api/subcategories/by_user/?user={id} — filter by user
+        - soft_delete: POST /api/subcategories/{id}/soft_delete/ — soft delete
+        - restore: POST /api/subcategories/{id}/restore/ — restore soft-deleted
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Subcategory.
+        required: true
+      tags:
+      - subcategories
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubCategory'
+          description: ''
+    put:
+      operationId: subcategories_update
+      description: |-
+        ViewSet for managing subcategories.
+
+        Provides CRUD operations:
+        - list: GET /api/subcategories/
+        - create: POST /api/subcategories/
+        - retrieve: GET /api/subcategories/{id}/
+        - update: PUT /api/subcategories/{id}/
+        - partial_update: PATCH /api/subcategories/{id}/
+        - destroy: DELETE /api/subcategories/{id}/
+
+        Custom actions:
+        - active: GET /api/subcategories/active/ — list only active subcategories
+        - by_category: GET /api/subcategories/by_category/?category={id} — filter by category
+        - by_user: GET /api/subcategories/by_user/?user={id} — filter by user
+        - soft_delete: POST /api/subcategories/{id}/soft_delete/ — soft delete
+        - restore: POST /api/subcategories/{id}/restore/ — restore soft-deleted
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Subcategory.
+        required: true
+      tags:
+      - subcategories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubCategoryCreateUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubCategoryCreateUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubCategoryCreateUpdateRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubCategoryCreateUpdate'
+          description: ''
+    patch:
+      operationId: subcategories_partial_update
+      description: |-
+        ViewSet for managing subcategories.
+
+        Provides CRUD operations:
+        - list: GET /api/subcategories/
+        - create: POST /api/subcategories/
+        - retrieve: GET /api/subcategories/{id}/
+        - update: PUT /api/subcategories/{id}/
+        - partial_update: PATCH /api/subcategories/{id}/
+        - destroy: DELETE /api/subcategories/{id}/
+
+        Custom actions:
+        - active: GET /api/subcategories/active/ — list only active subcategories
+        - by_category: GET /api/subcategories/by_category/?category={id} — filter by category
+        - by_user: GET /api/subcategories/by_user/?user={id} — filter by user
+        - soft_delete: POST /api/subcategories/{id}/soft_delete/ — soft delete
+        - restore: POST /api/subcategories/{id}/restore/ — restore soft-deleted
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Subcategory.
+        required: true
+      tags:
+      - subcategories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSubCategoryCreateUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSubCategoryCreateUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSubCategoryCreateUpdateRequest'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubCategoryCreateUpdate'
+          description: ''
+    delete:
+      operationId: subcategories_destroy
+      description: |-
+        ViewSet for managing subcategories.
+
+        Provides CRUD operations:
+        - list: GET /api/subcategories/
+        - create: POST /api/subcategories/
+        - retrieve: GET /api/subcategories/{id}/
+        - update: PUT /api/subcategories/{id}/
+        - partial_update: PATCH /api/subcategories/{id}/
+        - destroy: DELETE /api/subcategories/{id}/
+
+        Custom actions:
+        - active: GET /api/subcategories/active/ — list only active subcategories
+        - by_category: GET /api/subcategories/by_category/?category={id} — filter by category
+        - by_user: GET /api/subcategories/by_user/?user={id} — filter by user
+        - soft_delete: POST /api/subcategories/{id}/soft_delete/ — soft delete
+        - restore: POST /api/subcategories/{id}/restore/ — restore soft-deleted
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Subcategory.
+        required: true
+      tags:
+      - subcategories
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '204':
+          description: No response body
+  /api/subcategories/{id}/restore/:
+    post:
+      operationId: subcategories_restore_create
+      description: Restore a soft-deleted subcategory.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Subcategory.
+        required: true
+      tags:
+      - subcategories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubCategoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubCategoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubCategoryRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubCategory'
+          description: ''
+  /api/subcategories/{id}/soft_delete/:
+    post:
+      operationId: subcategories_soft_delete_create
+      description: Soft delete a subcategory.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Subcategory.
+        required: true
+      tags:
+      - subcategories
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubCategoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubCategoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubCategoryRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubCategory'
+          description: ''
+  /api/subcategories/{user}/:
+    get:
+      operationId: subcategories_retrieve_2
+      description: Filter subcategories by user ID.
+      parameters:
+      - in: path
+        name: user
+        schema:
+          type: string
+        required: true
+      tags:
+      - subcategories
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubCategory'
+          description: ''
+  /api/users/:
+    get:
+      operationId: users_list
+      description: |-
+        ViewSet for managing end users.
+
+        Provides CRUD operations:
+        - list: GET /api/endusers/
+        - create: POST /api/endusers/
+        - retrieve: GET /api/endusers/{id}/
+        - update: PUT /api/endusers/{id}/
+        - partial_update: PATCH /api/endusers/{id}/
+        - destroy: DELETE /api/endusers/{id}/
+
+        Custom actions:
+        - active: GET /api/endusers/active/ — list only active users
+        - verified: GET /api/endusers/verified/ — list fully verified users
+        - verify_mobile: POST /api/endusers/{id}/verify_mobile/ — mark mobile as verified
+        - verify_email: POST /api/endusers/{id}/verify_email/ — mark email as verified
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - users
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEndUserListList'
+          description: ''
+    post:
+      operationId: users_create
+      description: |-
+        ViewSet for managing end users.
+
+        Provides CRUD operations:
+        - list: GET /api/endusers/
+        - create: POST /api/endusers/
+        - retrieve: GET /api/endusers/{id}/
+        - update: PUT /api/endusers/{id}/
+        - partial_update: PATCH /api/endusers/{id}/
+        - destroy: DELETE /api/endusers/{id}/
+
+        Custom actions:
+        - active: GET /api/endusers/active/ — list only active users
+        - verified: GET /api/endusers/verified/ — list fully verified users
+        - verify_mobile: POST /api/endusers/{id}/verify_mobile/ — mark mobile as verified
+        - verify_email: POST /api/endusers/{id}/verify_email/ — mark email as verified
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndUserCreateUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EndUserCreateUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EndUserCreateUpdateRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndUserCreateUpdate'
+          description: ''
+  /api/users/{id}/:
+    get:
+      operationId: users_retrieve
+      description: |-
+        ViewSet for managing end users.
+
+        Provides CRUD operations:
+        - list: GET /api/endusers/
+        - create: POST /api/endusers/
+        - retrieve: GET /api/endusers/{id}/
+        - update: PUT /api/endusers/{id}/
+        - partial_update: PATCH /api/endusers/{id}/
+        - destroy: DELETE /api/endusers/{id}/
+
+        Custom actions:
+        - active: GET /api/endusers/active/ — list only active users
+        - verified: GET /api/endusers/verified/ — list fully verified users
+        - verify_mobile: POST /api/endusers/{id}/verify_mobile/ — mark mobile as verified
+        - verify_email: POST /api/endusers/{id}/verify_email/ — mark email as verified
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this End User.
+        required: true
+      tags:
+      - users
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndUserDetailWithCategories'
+          description: ''
+    put:
+      operationId: users_update
+      description: |-
+        ViewSet for managing end users.
+
+        Provides CRUD operations:
+        - list: GET /api/endusers/
+        - create: POST /api/endusers/
+        - retrieve: GET /api/endusers/{id}/
+        - update: PUT /api/endusers/{id}/
+        - partial_update: PATCH /api/endusers/{id}/
+        - destroy: DELETE /api/endusers/{id}/
+
+        Custom actions:
+        - active: GET /api/endusers/active/ — list only active users
+        - verified: GET /api/endusers/verified/ — list fully verified users
+        - verify_mobile: POST /api/endusers/{id}/verify_mobile/ — mark mobile as verified
+        - verify_email: POST /api/endusers/{id}/verify_email/ — mark email as verified
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this End User.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndUserCreateUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EndUserCreateUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EndUserCreateUpdateRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndUserCreateUpdate'
+          description: ''
+    patch:
+      operationId: users_partial_update
+      description: |-
+        ViewSet for managing end users.
+
+        Provides CRUD operations:
+        - list: GET /api/endusers/
+        - create: POST /api/endusers/
+        - retrieve: GET /api/endusers/{id}/
+        - update: PUT /api/endusers/{id}/
+        - partial_update: PATCH /api/endusers/{id}/
+        - destroy: DELETE /api/endusers/{id}/
+
+        Custom actions:
+        - active: GET /api/endusers/active/ — list only active users
+        - verified: GET /api/endusers/verified/ — list fully verified users
+        - verify_mobile: POST /api/endusers/{id}/verify_mobile/ — mark mobile as verified
+        - verify_email: POST /api/endusers/{id}/verify_email/ — mark email as verified
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this End User.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEndUserCreateUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEndUserCreateUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEndUserCreateUpdateRequest'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndUserCreateUpdate'
+          description: ''
+    delete:
+      operationId: users_destroy
+      description: |-
+        ViewSet for managing end users.
+
+        Provides CRUD operations:
+        - list: GET /api/endusers/
+        - create: POST /api/endusers/
+        - retrieve: GET /api/endusers/{id}/
+        - update: PUT /api/endusers/{id}/
+        - partial_update: PATCH /api/endusers/{id}/
+        - destroy: DELETE /api/endusers/{id}/
+
+        Custom actions:
+        - active: GET /api/endusers/active/ — list only active users
+        - verified: GET /api/endusers/verified/ — list fully verified users
+        - verify_mobile: POST /api/endusers/{id}/verify_mobile/ — mark mobile as verified
+        - verify_email: POST /api/endusers/{id}/verify_email/ — mark email as verified
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this End User.
+        required: true
+      tags:
+      - users
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '204':
+          description: No response body
+  /api/users/{id}/verify_email/:
+    post:
+      operationId: users_verify_email_create
+      description: Mark email as verified for this end user.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this End User.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndUserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EndUserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EndUserRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndUser'
+          description: ''
+  /api/users/{id}/verify_mobile/:
+    post:
+      operationId: users_verify_mobile_create
+      description: Mark mobile as verified for this end user.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this End User.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EndUserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/EndUserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/EndUserRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndUser'
+          description: ''
+  /api/users/{user_id_pk}/categories/:
+    get:
+      operationId: users_categories_list
+      description: |-
+        ViewSet for managing user categories under nested routes.
+        Nested under /api/users/{user_id}/categories/
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: path
+        name: user_id_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - users
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedUserCategoriesListList'
+          description: ''
+    post:
+      operationId: users_categories_create
+      description: |-
+        ViewSet for managing user categories under nested routes.
+        Nested under /api/users/{user_id}/categories/
+      parameters:
+      - in: path
+        name: user_id_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCategoriesCreateUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCategoriesCreateUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserCategoriesCreateUpdateRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCategoriesCreateUpdate'
+          description: ''
+  /api/users/{user_id_pk}/categories/{category_id_pk}/subcategories/:
+    get:
+      operationId: users_categories_subcategories_list
+      description: |-
+        ViewSet for managing subcategories under nested routes.
+        Nested under /api/users/{user_id}/categories/{category_id}/subcategories/
+      parameters:
+      - in: path
+        name: category_id_pk
+        schema:
+          type: string
+        required: true
+      - name: ordering
+        required: false
+        in: query
+        description: Which field to use when ordering the results.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: path
+        name: user_id_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - users
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSubCategoryListList'
+          description: ''
+    post:
+      operationId: users_categories_subcategories_create
+      description: |-
+        ViewSet for managing subcategories under nested routes.
+        Nested under /api/users/{user_id}/categories/{category_id}/subcategories/
+      parameters:
+      - in: path
+        name: category_id_pk
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: user_id_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubCategoryCreateUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubCategoryCreateUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubCategoryCreateUpdateRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubCategoryCreateUpdate'
+          description: ''
+  /api/users/{user_id_pk}/categories/{category_id_pk}/subcategories/{id}/:
+    get:
+      operationId: users_categories_subcategories_retrieve
+      description: |-
+        ViewSet for managing subcategories under nested routes.
+        Nested under /api/users/{user_id}/categories/{category_id}/subcategories/
+      parameters:
+      - in: path
+        name: category_id_pk
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Subcategory.
+        required: true
+      - in: path
+        name: user_id_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - users
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubCategory'
+          description: ''
+    put:
+      operationId: users_categories_subcategories_update
+      description: |-
+        ViewSet for managing subcategories under nested routes.
+        Nested under /api/users/{user_id}/categories/{category_id}/subcategories/
+      parameters:
+      - in: path
+        name: category_id_pk
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Subcategory.
+        required: true
+      - in: path
+        name: user_id_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubCategoryCreateUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubCategoryCreateUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubCategoryCreateUpdateRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubCategoryCreateUpdate'
+          description: ''
+    patch:
+      operationId: users_categories_subcategories_partial_update
+      description: |-
+        ViewSet for managing subcategories under nested routes.
+        Nested under /api/users/{user_id}/categories/{category_id}/subcategories/
+      parameters:
+      - in: path
+        name: category_id_pk
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Subcategory.
+        required: true
+      - in: path
+        name: user_id_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSubCategoryCreateUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSubCategoryCreateUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSubCategoryCreateUpdateRequest'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubCategoryCreateUpdate'
+          description: ''
+    delete:
+      operationId: users_categories_subcategories_destroy
+      description: |-
+        ViewSet for managing subcategories under nested routes.
+        Nested under /api/users/{user_id}/categories/{category_id}/subcategories/
+      parameters:
+      - in: path
+        name: category_id_pk
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Subcategory.
+        required: true
+      - in: path
+        name: user_id_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - users
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '204':
+          description: No response body
+  /api/users/{user_id_pk}/categories/{category_id_pk}/subcategories/{id}/restore/:
+    post:
+      operationId: users_categories_subcategories_restore_create
+      description: Restore a soft-deleted subcategory.
+      parameters:
+      - in: path
+        name: category_id_pk
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Subcategory.
+        required: true
+      - in: path
+        name: user_id_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubCategoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubCategoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubCategoryRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubCategory'
+          description: ''
+  /api/users/{user_id_pk}/categories/{category_id_pk}/subcategories/{id}/soft_delete/:
+    post:
+      operationId: users_categories_subcategories_soft_delete_create
+      description: Soft delete a subcategory.
+      parameters:
+      - in: path
+        name: category_id_pk
+        schema:
+          type: string
+        required: true
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this Subcategory.
+        required: true
+      - in: path
+        name: user_id_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubCategoryRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubCategoryRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubCategoryRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubCategory'
+          description: ''
+  /api/users/{user_id_pk}/categories/{id}/:
+    get:
+      operationId: users_categories_retrieve
+      description: |-
+        ViewSet for managing user categories under nested routes.
+        Nested under /api/users/{user_id}/categories/
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this User Category.
+        required: true
+      - in: path
+        name: user_id_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - users
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCategoriesDetail'
+          description: ''
+    put:
+      operationId: users_categories_update
+      description: |-
+        ViewSet for managing user categories under nested routes.
+        Nested under /api/users/{user_id}/categories/
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this User Category.
+        required: true
+      - in: path
+        name: user_id_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCategoriesCreateUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCategoriesCreateUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserCategoriesCreateUpdateRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCategoriesCreateUpdate'
+          description: ''
+    patch:
+      operationId: users_categories_partial_update
+      description: |-
+        ViewSet for managing user categories under nested routes.
+        Nested under /api/users/{user_id}/categories/
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this User Category.
+        required: true
+      - in: path
+        name: user_id_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserCategoriesCreateUpdateRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserCategoriesCreateUpdateRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserCategoriesCreateUpdateRequest'
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCategoriesCreateUpdate'
+          description: ''
+    delete:
+      operationId: users_categories_destroy
+      description: |-
+        ViewSet for managing user categories under nested routes.
+        Nested under /api/users/{user_id}/categories/
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this User Category.
+        required: true
+      - in: path
+        name: user_id_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - users
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '204':
+          description: No response body
+  /api/users/{user_id_pk}/categories/{id}/restore/:
+    post:
+      operationId: users_categories_restore_create
+      description: Restore a soft-deleted user category.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this User Category.
+        required: true
+      - in: path
+        name: user_id_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCategoriesDetailRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCategoriesDetailRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserCategoriesDetailRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCategoriesDetail'
+          description: ''
+  /api/users/{user_id_pk}/categories/{id}/soft_delete/:
+    post:
+      operationId: users_categories_soft_delete_create
+      description: Soft delete a user category.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this User Category.
+        required: true
+      - in: path
+        name: user_id_pk
+        schema:
+          type: string
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCategoriesDetailRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCategoriesDetailRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserCategoriesDetailRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCategoriesDetail'
+          description: ''
+  /api/users/active/:
+    get:
+      operationId: users_active_retrieve
+      description: Return only active end users.
+      tags:
+      - users
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndUser'
+          description: ''
+  /api/users/verified/:
+    get:
+      operationId: users_verified_retrieve
+      description: Return only fully verified end users (both mobile and email).
+      tags:
+      - users
+      security:
+      - cookieAuth: []
+      - tokenAuth: []
+      - TokenAuthentication: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EndUser'
+          description: ''
+components:
+  schemas:
+    Category:
+      type: object
+      description: Serializer for Category model.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          description: Category name (must be unique)
+          maxLength: 100
+        active:
+          type: boolean
+          description: Whether this category is currently active
+        last_update_by:
+          type: string
+          format: uuid
+          nullable: true
+          description: User ID who last updated this category
+        last_update_at:
+          type: string
+          format: date-time
+          readOnly: true
+          description: Timestamp of the last update
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - last_update_at
+      - name
+      - updated_at
+    CategoryList:
+      type: object
+      description: Lightweight serializer for listing categories.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          description: Category name (must be unique)
+          maxLength: 100
+        active:
+          type: boolean
+          description: Whether this category is currently active
+      required:
+      - id
+      - name
+    CategoryRequest:
+      type: object
+      description: Serializer for Category model.
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Category name (must be unique)
+          maxLength: 100
+        active:
+          type: boolean
+          description: Whether this category is currently active
+        last_update_by:
+          type: string
+          format: uuid
+          nullable: true
+          description: User ID who last updated this category
+      required:
+      - name
+    EndUser:
+      type: object
+      description: Full serializer for EndUser model.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        first_name:
+          type: string
+          description: User's first name
+          maxLength: 100
+        last_name:
+          type: string
+          description: User's last name
+          maxLength: 100
+        full_name:
+          type: string
+          readOnly: true
+        email:
+          type: string
+          format: email
+          description: User's email address
+          maxLength: 255
+        mobile:
+          type: string
+          description: User's mobile number (unique)
+          pattern: ^\+?1?\d{9,15}$
+          maxLength: 20
+        is_active:
+          type: boolean
+          description: Whether this user account is currently active
+        mobile_verified:
+          type: boolean
+          description: Whether the mobile number has been verified
+        email_verified:
+          type: boolean
+          description: Whether the email address has been verified
+        verification_status:
+          type: string
+          readOnly: true
+        income:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          description: User's monthly income
+        estimated_expense:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          description: User's estimated monthly expenses
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+          description: User ID who created this end user
+        updated_by:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+          description: User ID who last updated this end user
+      required:
+      - created_at
+      - created_by
+      - email
+      - first_name
+      - full_name
+      - id
+      - last_name
+      - mobile
+      - updated_at
+      - updated_by
+      - verification_status
+    EndUserCreateUpdate:
+      type: object
+      description: |-
+        Serializer for creating/updating end users.
+        Excludes audit fields which are set automatically.
+      properties:
+        first_name:
+          type: string
+          description: User's first name
+          maxLength: 100
+        last_name:
+          type: string
+          description: User's last name
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          description: User's email address
+          maxLength: 255
+        mobile:
+          type: string
+          description: User's mobile number (unique)
+          pattern: ^\+?1?\d{9,15}$
+          maxLength: 20
+        is_active:
+          type: boolean
+          description: Whether this user account is currently active
+        mobile_verified:
+          type: boolean
+          description: Whether the mobile number has been verified
+        email_verified:
+          type: boolean
+          description: Whether the email address has been verified
+        income:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          description: User's monthly income
+        estimated_expense:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          description: User's estimated monthly expenses
+      required:
+      - email
+      - first_name
+      - last_name
+      - mobile
+    EndUserCreateUpdateRequest:
+      type: object
+      description: |-
+        Serializer for creating/updating end users.
+        Excludes audit fields which are set automatically.
+      properties:
+        first_name:
+          type: string
+          minLength: 1
+          description: User's first name
+          maxLength: 100
+        last_name:
+          type: string
+          minLength: 1
+          description: User's last name
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          minLength: 1
+          description: User's email address
+          maxLength: 255
+        mobile:
+          type: string
+          minLength: 1
+          description: User's mobile number (unique)
+          pattern: ^\+?1?\d{9,15}$
+          maxLength: 20
+        is_active:
+          type: boolean
+          description: Whether this user account is currently active
+        mobile_verified:
+          type: boolean
+          description: Whether the mobile number has been verified
+        email_verified:
+          type: boolean
+          description: Whether the email address has been verified
+        income:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          description: User's monthly income
+        estimated_expense:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          description: User's estimated monthly expenses
+      required:
+      - email
+      - first_name
+      - last_name
+      - mobile
+    EndUserDetailWithCategories:
+      type: object
+      description: EndUser serializer with nested user_categories and subcategories.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        first_name:
+          type: string
+          description: User's first name
+          maxLength: 100
+        last_name:
+          type: string
+          description: User's last name
+          maxLength: 100
+        full_name:
+          type: string
+          readOnly: true
+        email:
+          type: string
+          format: email
+          description: User's email address
+          maxLength: 255
+        mobile:
+          type: string
+          description: User's mobile number (unique)
+          pattern: ^\+?1?\d{9,15}$
+          maxLength: 20
+        is_active:
+          type: boolean
+          description: Whether this user account is currently active
+        mobile_verified:
+          type: boolean
+          description: Whether the mobile number has been verified
+        email_verified:
+          type: boolean
+          description: Whether the email address has been verified
+        verification_status:
+          type: string
+          readOnly: true
+        income:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          description: User's monthly income
+        estimated_expense:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          description: User's estimated monthly expenses
+        user_categories:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+          description: User ID who created this end user
+        updated_by:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+          description: User ID who last updated this end user
+      required:
+      - created_at
+      - created_by
+      - email
+      - first_name
+      - full_name
+      - id
+      - last_name
+      - mobile
+      - updated_at
+      - updated_by
+      - user_categories
+      - verification_status
+    EndUserList:
+      type: object
+      description: Lightweight serializer for listing end users.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        full_name:
+          type: string
+          readOnly: true
+        mobile:
+          type: string
+          description: User's mobile number (unique)
+          pattern: ^\+?1?\d{9,15}$
+          maxLength: 20
+        email:
+          type: string
+          format: email
+          description: User's email address
+          maxLength: 255
+        is_active:
+          type: boolean
+          description: Whether this user account is currently active
+        mobile_verified:
+          type: boolean
+          description: Whether the mobile number has been verified
+        email_verified:
+          type: boolean
+          description: Whether the email address has been verified
+      required:
+      - email
+      - full_name
+      - id
+      - mobile
+    EndUserRequest:
+      type: object
+      description: Full serializer for EndUser model.
+      properties:
+        first_name:
+          type: string
+          minLength: 1
+          description: User's first name
+          maxLength: 100
+        last_name:
+          type: string
+          minLength: 1
+          description: User's last name
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          minLength: 1
+          description: User's email address
+          maxLength: 255
+        mobile:
+          type: string
+          minLength: 1
+          description: User's mobile number (unique)
+          pattern: ^\+?1?\d{9,15}$
+          maxLength: 20
+        is_active:
+          type: boolean
+          description: Whether this user account is currently active
+        mobile_verified:
+          type: boolean
+          description: Whether the mobile number has been verified
+        email_verified:
+          type: boolean
+          description: Whether the email address has been verified
+        income:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          description: User's monthly income
+        estimated_expense:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          description: User's estimated monthly expenses
+      required:
+      - email
+      - first_name
+      - last_name
+      - mobile
+    PaginatedCategoryListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CategoryList'
+    PaginatedEndUserListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/EndUserList'
+    PaginatedSubCategoryListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubCategoryList'
+    PaginatedUserCategoriesListList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserCategoriesList'
+    PatchedCategoryRequest:
+      type: object
+      description: Serializer for Category model.
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Category name (must be unique)
+          maxLength: 100
+        active:
+          type: boolean
+          description: Whether this category is currently active
+        last_update_by:
+          type: string
+          format: uuid
+          nullable: true
+          description: User ID who last updated this category
+    PatchedEndUserCreateUpdateRequest:
+      type: object
+      description: |-
+        Serializer for creating/updating end users.
+        Excludes audit fields which are set automatically.
+      properties:
+        first_name:
+          type: string
+          minLength: 1
+          description: User's first name
+          maxLength: 100
+        last_name:
+          type: string
+          minLength: 1
+          description: User's last name
+          maxLength: 100
+        email:
+          type: string
+          format: email
+          minLength: 1
+          description: User's email address
+          maxLength: 255
+        mobile:
+          type: string
+          minLength: 1
+          description: User's mobile number (unique)
+          pattern: ^\+?1?\d{9,15}$
+          maxLength: 20
+        is_active:
+          type: boolean
+          description: Whether this user account is currently active
+        mobile_verified:
+          type: boolean
+          description: Whether the mobile number has been verified
+        email_verified:
+          type: boolean
+          description: Whether the email address has been verified
+        income:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          description: User's monthly income
+        estimated_expense:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          nullable: true
+          description: User's estimated monthly expenses
+    PatchedSubCategoryCreateUpdateRequest:
+      type: object
+      description: |-
+        Serializer for creating/updating subcategories.
+        Excludes audit fields which are set automatically.
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Subcategory name
+          maxLength: 100
+        category:
+          type: string
+          format: uuid
+          description: Parent category
+        user_id:
+          type: string
+          format: uuid
+          description: User ID who owns this subcategory
+        is_active:
+          type: boolean
+          description: Whether this subcategory is currently active
+        is_deleted:
+          type: boolean
+          description: Soft delete flag
+    PatchedUserCategoriesCreateUpdateRequest:
+      type: object
+      description: Serializer for creating/updating user categories.
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          description: User ID who owns this category relationship
+        category:
+          type: string
+          format: uuid
+          description: Reference to the category
+        name:
+          type: string
+          minLength: 1
+          description: Denormalized category name for performance
+          maxLength: 100
+        is_active:
+          type: boolean
+          description: Whether this user category is currently active
+        is_deleted:
+          type: boolean
+          description: Soft delete flag
+    SubCategory:
+      type: object
+      description: Full serializer for SubCategory model.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          description: Subcategory name
+          maxLength: 100
+        category:
+          type: string
+          format: uuid
+          description: Parent category
+        category_name:
+          type: string
+          readOnly: true
+        user_id:
+          type: string
+          format: uuid
+          description: User ID who owns this subcategory
+        full_path:
+          type: string
+          readOnly: true
+        is_active:
+          type: boolean
+          description: Whether this subcategory is currently active
+        is_deleted:
+          type: boolean
+          description: Soft delete flag
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+          description: User ID who created this subcategory
+        updated_by:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+          description: User ID who last updated this subcategory
+      required:
+      - category
+      - category_name
+      - created_at
+      - created_by
+      - full_path
+      - id
+      - name
+      - updated_at
+      - updated_by
+      - user_id
+    SubCategoryCreateUpdate:
+      type: object
+      description: |-
+        Serializer for creating/updating subcategories.
+        Excludes audit fields which are set automatically.
+      properties:
+        name:
+          type: string
+          description: Subcategory name
+          maxLength: 100
+        category:
+          type: string
+          format: uuid
+          description: Parent category
+        user_id:
+          type: string
+          format: uuid
+          description: User ID who owns this subcategory
+        is_active:
+          type: boolean
+          description: Whether this subcategory is currently active
+        is_deleted:
+          type: boolean
+          description: Soft delete flag
+      required:
+      - category
+      - name
+      - user_id
+    SubCategoryCreateUpdateRequest:
+      type: object
+      description: |-
+        Serializer for creating/updating subcategories.
+        Excludes audit fields which are set automatically.
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Subcategory name
+          maxLength: 100
+        category:
+          type: string
+          format: uuid
+          description: Parent category
+        user_id:
+          type: string
+          format: uuid
+          description: User ID who owns this subcategory
+        is_active:
+          type: boolean
+          description: Whether this subcategory is currently active
+        is_deleted:
+          type: boolean
+          description: Soft delete flag
+      required:
+      - category
+      - name
+      - user_id
+    SubCategoryList:
+      type: object
+      description: Lightweight serializer for listing subcategories.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          description: Subcategory name
+          maxLength: 100
+        category:
+          type: string
+          format: uuid
+          description: Parent category
+        category_name:
+          type: string
+          readOnly: true
+        full_path:
+          type: string
+          readOnly: true
+        is_active:
+          type: boolean
+          description: Whether this subcategory is currently active
+        is_deleted:
+          type: boolean
+          description: Soft delete flag
+      required:
+      - category
+      - category_name
+      - full_path
+      - id
+      - name
+    SubCategoryRequest:
+      type: object
+      description: Full serializer for SubCategory model.
+      properties:
+        name:
+          type: string
+          minLength: 1
+          description: Subcategory name
+          maxLength: 100
+        category:
+          type: string
+          format: uuid
+          description: Parent category
+        user_id:
+          type: string
+          format: uuid
+          description: User ID who owns this subcategory
+        is_active:
+          type: boolean
+          description: Whether this subcategory is currently active
+        is_deleted:
+          type: boolean
+          description: Soft delete flag
+      required:
+      - category
+      - name
+      - user_id
+    UserCategoriesCreateUpdate:
+      type: object
+      description: Serializer for creating/updating user categories.
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          description: User ID who owns this category relationship
+        category:
+          type: string
+          format: uuid
+          description: Reference to the category
+        name:
+          type: string
+          description: Denormalized category name for performance
+          maxLength: 100
+        is_active:
+          type: boolean
+          description: Whether this user category is currently active
+        is_deleted:
+          type: boolean
+          description: Soft delete flag
+      required:
+      - category
+      - name
+      - user_id
+    UserCategoriesCreateUpdateRequest:
+      type: object
+      description: Serializer for creating/updating user categories.
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          description: User ID who owns this category relationship
+        category:
+          type: string
+          format: uuid
+          description: Reference to the category
+        name:
+          type: string
+          minLength: 1
+          description: Denormalized category name for performance
+          maxLength: 100
+        is_active:
+          type: boolean
+          description: Whether this user category is currently active
+        is_deleted:
+          type: boolean
+          description: Soft delete flag
+      required:
+      - category
+      - name
+      - user_id
+    UserCategoriesDetail:
+      type: object
+      description: Detailed serializer with nested subcategories.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        user_id:
+          type: string
+          format: uuid
+          description: User ID who owns this category relationship
+        category:
+          type: string
+          format: uuid
+          description: Reference to the category
+        category_id:
+          type: string
+          format: uuid
+          readOnly: true
+        category_name:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          description: Denormalized category name for performance
+          maxLength: 100
+        is_active:
+          type: boolean
+          description: Whether this user category is currently active
+        is_deleted:
+          type: boolean
+          description: Soft delete flag
+        subcategories:
+          type: string
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        created_by:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+          description: User ID who created this user category
+        updated_by:
+          type: string
+          format: uuid
+          readOnly: true
+          nullable: true
+          description: User ID who last updated this user category
+      required:
+      - category
+      - category_id
+      - category_name
+      - created_at
+      - created_by
+      - id
+      - name
+      - subcategories
+      - updated_at
+      - updated_by
+      - user_id
+    UserCategoriesDetailRequest:
+      type: object
+      description: Detailed serializer with nested subcategories.
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          description: User ID who owns this category relationship
+        category:
+          type: string
+          format: uuid
+          description: Reference to the category
+        name:
+          type: string
+          minLength: 1
+          description: Denormalized category name for performance
+          maxLength: 100
+        is_active:
+          type: boolean
+          description: Whether this user category is currently active
+        is_deleted:
+          type: boolean
+          description: Soft delete flag
+      required:
+      - category
+      - name
+      - user_id
+    UserCategoriesList:
+      type: object
+      description: Lightweight serializer for listing user categories.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        user_id:
+          type: string
+          format: uuid
+          description: User ID who owns this category relationship
+        category:
+          type: string
+          format: uuid
+          description: Reference to the category
+        category_id:
+          type: string
+          format: uuid
+          readOnly: true
+        category_name:
+          type: string
+          readOnly: true
+        name:
+          type: string
+          description: Denormalized category name for performance
+          maxLength: 100
+        is_active:
+          type: boolean
+          description: Whether this user category is currently active
+        is_deleted:
+          type: boolean
+          description: Soft delete flag
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - category
+      - category_id
+      - category_name
+      - created_at
+      - id
+      - name
+      - updated_at
+      - user_id
+  securitySchemes:
+    TokenAuthentication:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: 'Token-based authentication with required prefix: **Token**'
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    tokenAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Token-based authentication with required prefix "Token"

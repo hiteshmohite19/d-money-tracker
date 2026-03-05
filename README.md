@@ -1,4 +1,5 @@
-# dMoneyTracker
+# d-money-tracker
+MoneyTracker is a Django application, which is developed to maintain all expenses at one place
 
 A production-ready **Django REST Framework** application with PostgreSQL, split settings, whitenoise static serving, and environment-based configuration.
 

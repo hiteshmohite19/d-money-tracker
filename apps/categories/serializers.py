@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Category
+from .models import Category, CategoryTransactions
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -30,3 +30,32 @@ class CategoryListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ["id", "name", "active"]
+
+
+class CategoryTransactionsSerializer(serializers.ModelSerializer):
+    """
+    Serializer for CategoryTransactions model.
+    Returns amount as absolute value (always positive).
+    """
+
+    amount = serializers.SerializerMethodField()
+    category_name = serializers.CharField(source="category_id.name", read_only=True)
+    user_name = serializers.CharField(source="user_id.full_name", read_only=True)
+
+    class Meta:
+        model = CategoryTransactions
+        fields = [
+            "id",
+            "user_id",
+            "user_name",
+            "category_id",
+            "category_name",
+            "amount",
+            "created_at",
+            "updated_at",
+        ]
+        read_only_fields = ["id", "created_at", "updated_at"]
+
+    def get_amount(self, obj):
+        """Return absolute value of amount (always positive)."""
+        return abs(obj.amount)

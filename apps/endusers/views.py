@@ -3,6 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
+from .google_auth import verify_google_token
 from .jwt_utils import generate_token
 from .models import EndUser, UserCategories
 from .serializers import (
@@ -39,50 +40,117 @@ class EndUserViewSet(viewsets.ModelViewSet):
             return EndUserCreateUpdateSerializer
         return EndUserSerializer
 
-    @action(detail=False, methods=["post"], url_path="register")
-    def register(self, request):
-        """POST /register/ - Register a new user and return JWT token."""
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+    # @action(detail=False, methods=["post"], url_path="register")
+    # def register(self, request):
+    #     """POST /register/ - Register a new user and return JWT token."""
+    #     serializer = self.get_serializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
 
-        user = serializer.instance
-        token = generate_token(user)
+    #     user = serializer.instance
+    #     token = generate_token(user)
 
-        response_serializer = EndUserSerializer(user)
-        return Response(
-            {
-                "user": response_serializer.data,
-                "token": token,
-            },
-            status=status.HTTP_201_CREATED,
-        )
+    #     response_serializer = EndUserSerializer(user)
+    #     return Response(
+    #         {
+    #             "user": response_serializer.data,
+    #             "token": token,
+    #         },
+    #         status=status.HTTP_201_CREATED,
+    #     )
 
-    @action(detail=False, methods=["post"], url_path="login")
-    def login(self, request):
-        """POST /login/ - Login with mobile and return JWT token."""
-        mobile = request.data.get("mobile")
+    # @action(detail=False, methods=["post"], url_path="login")
+    # def login(self, request):
+    #     """POST /login/ - Login with mobile and return JWT token."""
+    #     mobile = request.data.get("mobile")
 
-        if not mobile:
+    #     if not mobile:
+    #         return Response(
+    #             {"error": "mobile is required"},
+    #             status=status.HTTP_400_BAD_REQUEST,
+    #         )
+
+    #     try:
+    #         user = EndUser.objects.get(mobile=mobile)
+    #     except EndUser.DoesNotExist:
+    #         return Response(
+    #             {"error": "User not found"},
+    #             status=status.HTTP_404_NOT_FOUND,
+    #         )
+
+    #     if not user.is_active:
+    #         return Response(
+    #             {"error": "User account is deactivated"},
+    #             status=status.HTTP_403_FORBIDDEN,
+    #         )
+
+    #     token = generate_token(user)
+
+    #     response_serializer = EndUserSerializer(user)
+    #     return Response(
+    #         {
+    #             "user": response_serializer.data,
+    #             "token": token,
+    #         },
+    #         status=status.HTTP_200_OK,
+    #     )
+
+    @action(detail=False, methods=["post"], url_path="signin")
+    def signin(self, request):
+        """POST /signin/ - Sign in with Google token."""
+        google_token = request.data.get("google_token")
+
+        if not google_token:
             return Response(
-                {"error": "mobile is required"},
+                {"error": "google_token is required"},
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
         try:
-            user = EndUser.objects.get(mobile=mobile)
+            # Verify Google token and extract user info
+            user_info = verify_google_token(google_token)
+        except ValueError as e:
+            return Response(
+                {"error": str(e)},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # Extract user details from Google token
+        email = user_info.get("email")
+        given_name = user_info.get("given_name", "")
+        family_name = user_info.get("family_name", "")
+        email_verified = user_info.get("email_verified", False)
+
+        if not email:
+            return Response(
+                {"error": "Invalid email id"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # Check if user exists by email
+        try:
+            user = EndUser.objects.get(email=email)
+            # User exists, update verification status if needed
+            if email_verified and not user.email_verified:
+                user.email_verified = True
+                user.save()
+            created = False
         except EndUser.DoesNotExist:
-            return Response(
-                {"error": "User not found"},
-                status=status.HTTP_404_NOT_FOUND,
-            )
+            # Create new user from Google info using serializer
+            user_data = {
+                "first_name": given_name or "User",
+                "last_name": family_name or "",
+                "email": email,
+                "email_verified": email_verified,
+                "is_active": True,
+            }
 
-        if not user.is_active:
-            return Response(
-                {"error": "User account is deactivated"},
-                status=status.HTTP_403_FORBIDDEN,
-            )
+            serializer = EndUserCreateUpdateSerializer(data=user_data)
+            serializer.is_valid(raise_exception=True)
+            user = serializer.save()
+            created = True
 
+        # Generate JWT token
         token = generate_token(user)
 
         response_serializer = EndUserSerializer(user)
@@ -90,8 +158,9 @@ class EndUserViewSet(viewsets.ModelViewSet):
             {
                 "user": response_serializer.data,
                 "token": token,
+                "created": created,
             },
-            status=status.HTTP_200_OK,
+            status=status.HTTP_201_CREATED if created else status.HTTP_200_OK,
         )
 
     @action(detail=False, methods=["post"], url_path="update-user")

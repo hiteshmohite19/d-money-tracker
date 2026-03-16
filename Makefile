@@ -9,9 +9,9 @@ help:  ## Show this help message
 install:  ## Install all dependencies including dev dependencies
 	pip install -e ".[dev]"
 
-hooks:  ## Install pre-commit hooks
-	pre-commit install
-	@echo "Pre-commit hooks installed successfully!"
+hooks:  ## Install pre-push hooks
+	pre-commit install --hook-type pre-push
+	@echo "Pre-push hooks installed successfully!"
 
 test:  ## Run all tests
 	pytest
@@ -40,8 +40,8 @@ migrations:  ## Check for missing migrations
 migrate:  ## Run migrations
 	python manage.py migrate
 
-pre-commit:  ## Run all pre-commit hooks manually
-	pre-commit run --all-files
+pre-push:  ## Run all pre-push hooks manually
+	pre-commit run --all-files --hook-stage push
 
 clean:  ## Clean up Python cache files
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
@@ -54,7 +54,7 @@ setup:  ## Complete setup: install dependencies and hooks
 	$(MAKE) install
 	$(MAKE) hooks
 	@echo ""
-	@echo "Setup complete! Pre-commit hooks are now active."
+	@echo "Setup complete! Pre-push hooks are now active."
 
 dev:  ## Run development server
 	python manage.py runserver

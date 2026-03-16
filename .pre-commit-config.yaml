@@ -1,6 +1,6 @@
-# Pre-commit hooks configuration
-# Install: pre-commit install
-# Run manually: pre-commit run --all-files
+# Pre-push hooks configuration
+# Install: pre-commit install --hook-type pre-push
+# Run manually: pre-commit run --all-files --hook-stage push
 
 repos:
   # Ruff - Fast Python linter and formatter
@@ -11,9 +11,11 @@ repos:
       - id: ruff
         args: [--fix]
         name: ruff-lint
+        stages: [push]
       # Run the formatter
       - id: ruff-format
         name: ruff-format
+        stages: [push]
 
   # Django-specific checks
   - repo: local
@@ -25,6 +27,7 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
+        stages: [push]
 
       # Run Django migrations check
       - id: django-migrations-check
@@ -33,6 +36,7 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
+        stages: [push]
 
       # Run pytest
       - id: pytest
@@ -42,17 +46,26 @@ repos:
         pass_filenames: false
         always_run: true
         verbose: true
+        stages: [push]
 
-  # Standard pre-commit hooks
+  # Standard pre-push hooks
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
       - id: trailing-whitespace
+        stages: [push]
       - id: end-of-file-fixer
+        stages: [push]
       - id: check-yaml
+        stages: [push]
       - id: check-added-large-files
         args: ['--maxkb=1000']
+        stages: [push]
       - id: check-merge-conflict
+        stages: [push]
       - id: check-json
+        stages: [push]
       - id: check-toml
+        stages: [push]
       - id: detect-private-key
+        stages: [push]

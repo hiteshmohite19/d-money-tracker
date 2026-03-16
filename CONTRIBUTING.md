@@ -15,15 +15,15 @@
    cd dmoneytracker
    ```
 
-2. **Install dependencies and setup pre-commit hooks:**
+2. **Install dependencies and setup pre-push hooks:**
    ```bash
    make setup
    ```
-   
+
    Or manually:
    ```bash
    pip install -e ".[dev]"
-   pre-commit install
+   pre-commit install --hook-type pre-push
    ```
 
 3. **Configure environment:**
@@ -44,9 +44,9 @@
 
 ## Development Workflow
 
-### Pre-commit Hooks
+### Pre-push Hooks
 
-This project uses **pre-commit hooks** to ensure code quality. Every commit will automatically:
+This project uses **pre-push hooks** to ensure code quality. Every push to remote will automatically:
 
 1. ✅ **Format code** using Ruff
 2. ✅ **Lint code** and fix issues
@@ -55,7 +55,7 @@ This project uses **pre-commit hooks** to ensure code quality. Every commit will
 5. ✅ **Run unit tests** (all tests must pass)
 6. ✅ **Check for common issues** (trailing whitespace, large files, etc.)
 
-**Important:** Commits will be **blocked** if:
+**Important:** Pushes will be **blocked** if:
 - Tests fail
 - Code is not properly formatted
 - Linting errors exist
@@ -90,14 +90,14 @@ make format-check
 make lint-fix
 ```
 
-### Manual Pre-commit Check
+### Manual Pre-push Check
 
 ```bash
-# Run all pre-commit hooks manually
-make pre-commit
+# Run all pre-push hooks manually
+make pre-push
 
 # Or directly
-pre-commit run --all-files
+pre-commit run --all-files --hook-stage push
 ```
 
 ### Common Commands
@@ -128,14 +128,14 @@ make clean         # Clean up cache files
 ### Testing
 - **Framework:** pytest
 - **Coverage:** Minimum 0% (configure as needed)
-- **All tests must pass before commit**
+- **All tests must pass before push**
 
-## Bypassing Pre-commit (Not Recommended)
+## Bypassing Pre-push (Not Recommended)
 
-In rare cases, you may need to bypass pre-commit hooks:
+In rare cases, you may need to bypass pre-push hooks:
 
 ```bash
-git commit --no-verify -m "Your message"
+git push --no-verify
 ```
 
 ⚠️ **Warning:** Only use this in exceptional circumstances. The CI/CD pipeline will still enforce all checks.
@@ -169,11 +169,11 @@ class TestYourModel:
 
 1. Create a feature branch from `main`
 2. Make your changes
-3. Ensure all pre-commit hooks pass
-4. Push your branch
+3. Commit your changes locally (no pre-commit checks)
+4. Push your branch (pre-push hooks will run automatically)
 5. Create a pull request
 6. Wait for code review and CI checks
 
 ## Questions?
 
-If you have questions about the development workflow or pre-commit setup, please create an issue.
+If you have questions about the development workflow or pre-push hooks setup, please create an issue.

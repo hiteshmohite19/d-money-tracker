@@ -1,13 +1,9 @@
-from decimal import Decimal
-
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from apps.endusers.models import EndUser
-
-from .models import Transaction, TransactionType
+from .models import Transaction
 from .serializers import (
     TransactionCreateUpdateSerializer,
     TransactionListSerializer,
@@ -51,7 +47,12 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["post"], url_path="create")
     def create_transaction(self, request):
-        """POST /transaction/ - Create a new transaction."""
+        """
+        POST /transaction/ - Create a new transaction.
+
+        Note: User's available_balance and CategoryTransactions are updated
+        automatically via signals.
+        """
         user = request.user
         data = request.data.copy()
         data["user_id"] = str(user.id)
@@ -59,24 +60,6 @@ class TransactionViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
         transaction = serializer.save(created_by=user.id)
-
-        # Update user's available_balance based on transaction type
-        try:
-            end_user = EndUser.objects.get(id=user.id)
-            if end_user.available_balance is not None:
-                transaction_amount = Decimal(str(transaction.amount))
-
-                if transaction.transaction_type == TransactionType.CREDIT:
-                    # Add amount for CREDIT transactions
-                    end_user.available_balance += transaction_amount
-                elif transaction.transaction_type == TransactionType.DEBIT:
-                    # Subtract amount for DEBIT transactions
-                    end_user.available_balance -= transaction_amount
-                # EMI transactions don't affect available_balance immediately
-
-                end_user.save(update_fields=['available_balance'])
-        except EndUser.DoesNotExist:
-            pass  # User not found, skip balance update
 
         response_serializer = TransactionSerializer(transaction)
         return Response(response_serializer.data, status=status.HTTP_201_CREATED)

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category
+from .models import Category, CategoryTransactions
 
 
 @admin.register(Category)
@@ -31,3 +31,29 @@ class CategoryAdmin(admin.ModelAdmin):
         """Save the model instance."""
         # Note: last_update_by is a UUID field - set manually or via API
         super().save_model(request, obj, form, change)
+
+
+@admin.register(CategoryTransactions)
+class CategoryTransactionsAdmin(admin.ModelAdmin):
+    list_display = ["user_id", "category_id", "amount", "created_at", "updated_at"]
+    list_filter = ["created_at", "updated_at"]
+    search_fields = ["user_id__first_name", "user_id__last_name", "category_id__name"]
+    readonly_fields = ["id", "created_at", "updated_at"]
+    date_hierarchy = "created_at"
+    autocomplete_fields = ["user_id", "category_id"]
+
+    fieldsets = (
+        (
+            "Transaction Summary",
+            {
+                "fields": ("user_id", "category_id", "amount"),
+            },
+        ),
+        (
+            "Metadata",
+            {
+                "fields": ("id", "created_at", "updated_at"),
+                "classes": ("collapse",),
+            },
+        ),
+    )

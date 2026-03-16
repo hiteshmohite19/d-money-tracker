@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "apps.endusers",
     "apps.subcategories",
     "apps.transactions",
+    "apps.wishlist",
 ]
 
 # ---------------------------------------------------------------------------

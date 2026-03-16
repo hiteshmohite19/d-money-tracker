@@ -82,11 +82,11 @@ class EndUserCreateUpdateSerializer(serializers.ModelSerializer):
             "estimated_expense",
         ]
 
-    def validate_mobile(self, value):
-        """Ensure mobile is unique when creating/updating."""
+    def validate_email(self, value):
+        """Ensure email is unique when creating/updating."""
         instance = self.instance
-        if EndUser.objects.filter(mobile=value).exclude(pk=instance.pk if instance else None).exists():
-            raise serializers.ValidationError("This mobile number is already registered.")
+        if EndUser.objects.filter(email=value).exclude(pk=instance.pk if instance else None).exists():
+            raise serializers.ValidationError("This email is already registered.")
         return value
 
 

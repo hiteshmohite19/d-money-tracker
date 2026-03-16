@@ -31,6 +31,7 @@ dependencies = [
     "Pillow",                  # image handling
     "django-cors-headers",      # CORS support
     "PyJWT",                   # JWT token handling
+    "google-auth>=2.0",         # Google authentication library
 ]
 
 [project.optional-dependencies]

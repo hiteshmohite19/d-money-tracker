@@ -22,6 +22,7 @@ class EndUser(TimestampModel):
     )
     email = models.EmailField(
         max_length=255,
+        unique=True,
         validators=[EmailValidator()],
         help_text="User's email address",
     )
@@ -29,7 +30,6 @@ class EndUser(TimestampModel):
     # Contact - mobile is unique
     mobile = models.CharField(
         max_length=20,
-        unique=True,
         validators=[
             RegexValidator(
                 regex=r"^\+?1?\d{9,15}$",

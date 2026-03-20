@@ -59,3 +59,18 @@ class CategoryTransactionsSerializer(serializers.ModelSerializer):
     def get_amount(self, obj):
         """Return absolute value of amount (always positive)."""
         return abs(obj.amount)
+
+
+class CategoryTransactionsRawSerializer(serializers.ModelSerializer):
+    """
+    Serializer for CategoryTransactions model.
+    Returns amount as-is (negative for debits, positive for credits).
+    """
+
+    class Meta:
+        model = CategoryTransactions
+        fields = [
+            "category_id",
+            "amount",
+        ]
+        read_only_fields = ["category_id", "amount"]

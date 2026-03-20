@@ -40,60 +40,60 @@ class EndUserViewSet(viewsets.ModelViewSet):
             return EndUserCreateUpdateSerializer
         return EndUserSerializer
 
-    # @action(detail=False, methods=["post"], url_path="register")
-    # def register(self, request):
-    #     """POST /register/ - Register a new user and return JWT token."""
-    #     serializer = self.get_serializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
+    @action(detail=False, methods=["post"], url_path="register")
+    def register(self, request):
+        """POST /register/ - Register a new user and return JWT token."""
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
 
-    #     user = serializer.instance
-    #     token = generate_token(user)
+        user = serializer.instance
+        token = generate_token(user)
 
-    #     response_serializer = EndUserSerializer(user)
-    #     return Response(
-    #         {
-    #             "user": response_serializer.data,
-    #             "token": token,
-    #         },
-    #         status=status.HTTP_201_CREATED,
-    #     )
+        response_serializer = EndUserSerializer(user)
+        return Response(
+            {
+                "user": response_serializer.data,
+                "token": token,
+            },
+            status=status.HTTP_201_CREATED,
+        )
 
-    # @action(detail=False, methods=["post"], url_path="login")
-    # def login(self, request):
-    #     """POST /login/ - Login with mobile and return JWT token."""
-    #     mobile = request.data.get("mobile")
+    @action(detail=False, methods=["post"], url_path="login")
+    def login(self, request):
+        """POST /login/ - Login with mobile and return JWT token."""
+        mobile = request.data.get("mobile")
 
-    #     if not mobile:
-    #         return Response(
-    #             {"error": "mobile is required"},
-    #             status=status.HTTP_400_BAD_REQUEST,
-    #         )
+        if not mobile:
+            return Response(
+                {"error": "mobile is required"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
-    #     try:
-    #         user = EndUser.objects.get(mobile=mobile)
-    #     except EndUser.DoesNotExist:
-    #         return Response(
-    #             {"error": "User not found"},
-    #             status=status.HTTP_404_NOT_FOUND,
-    #         )
+        try:
+            user = EndUser.objects.get(mobile=mobile)
+        except EndUser.DoesNotExist:
+            return Response(
+                {"error": "User not found"},
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
-    #     if not user.is_active:
-    #         return Response(
-    #             {"error": "User account is deactivated"},
-    #             status=status.HTTP_403_FORBIDDEN,
-    #         )
+        if not user.is_active:
+            return Response(
+                {"error": "User account is deactivated"},
+                status=status.HTTP_403_FORBIDDEN,
+            )
 
-    #     token = generate_token(user)
+        token = generate_token(user)
 
-    #     response_serializer = EndUserSerializer(user)
-    #     return Response(
-    #         {
-    #             "user": response_serializer.data,
-    #             "token": token,
-    #         },
-    #         status=status.HTTP_200_OK,
-    #     )
+        response_serializer = EndUserSerializer(user)
+        return Response(
+            {
+                "user": response_serializer.data,
+                "token": token,
+            },
+            status=status.HTTP_200_OK,
+        )
 
     @action(detail=False, methods=["post"], url_path="signin")
     def signin(self, request):

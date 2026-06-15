@@ -8,7 +8,6 @@ cryptography==46.0.5
 Django==6.0.2
 django-cors-headers==4.9.0
 djangorestframework==3.16.1
-git+https://github.com/hiteshmohite19/d-money-tracker.git@<new-hash>#egg=dmoneytracker
 drf-nested-routers==0.95.0
 drf-spectacular==0.29.0
 google-auth==2.49.1

@@ -23,7 +23,7 @@ SECRET_KEY = config("SECRET_KEY", "doiwfye4cot8yu9wp4oiut90n345p8mu5034")
 
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="localhost")
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="localhost", cast=Csv())
 
 ROOT_URLCONF = "dmoneytracker.urls"
 

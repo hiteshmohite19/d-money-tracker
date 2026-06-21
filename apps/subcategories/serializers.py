@@ -5,16 +5,20 @@ from .models import SubCategory
 
 class SubCategoryTransactionSerializer(serializers.Serializer):
     """Transaction details nested inside subcategory listing."""
+
     id = serializers.UUIDField(read_only=True)
     transaction_type = serializers.CharField(read_only=True)
     transaction_with = serializers.CharField(read_only=True)
     description = serializers.CharField(read_only=True, allow_null=True)
-    amount = serializers.DecimalField(max_digits=12, decimal_places=2, coerce_to_string=False, read_only=True)
+    amount = serializers.DecimalField(
+        max_digits=12, decimal_places=2, coerce_to_string=False, read_only=True
+    )
     date = serializers.DateField(read_only=True)
 
 
 class SubCategoryWithTransactionsSerializer(serializers.ModelSerializer):
     """Subcategory with nested transactions (left join equivalent)."""
+
     transactions = serializers.SerializerMethodField()
 
     class Meta:
@@ -29,7 +33,9 @@ class SubCategoryWithTransactionsSerializer(serializers.ModelSerializer):
 
     def get_transactions(self, obj):
         user_id = self.context.get("user_id")
-        qs = obj.transactions.filter(is_deleted=False, user_id=user_id).order_by("-date", "-created_at")
+        qs = obj.transactions.filter(is_deleted=False, user_id=user_id).order_by(
+            "-date", "-created_at"
+        )
         return SubCategoryTransactionSerializer(qs, many=True).data
 
 

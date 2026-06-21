@@ -3,7 +3,6 @@ from apps.subcategories.models import SubCategory
 
 
 class SubCategoriesService:
-
     @staticmethod
     def getSubCategoryTransactions(user, user_category_id):
         subcategories = SubCategory.objects.filter(

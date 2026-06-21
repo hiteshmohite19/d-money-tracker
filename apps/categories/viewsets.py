@@ -49,17 +49,17 @@ class CategoryViewSet(viewsets.ModelViewSet):
         category_transactions = CategoryTransactions.objects.filter(user_id=user)
 
         # Create a dictionary mapping category_id to amount
-        transactions_dict = {
-            ct.category_id_id: ct.amount for ct in category_transactions
-        }
+        transactions_dict = {ct.category_id_id: ct.amount for ct in category_transactions}
 
         # Build response data with all categories
         response_data = []
         for category in user_categories:
             amount = transactions_dict.get(category.id, Decimal("0.00"))
-            response_data.append({
-                "category_id": category.id,
-                "amount": amount,
-            })
+            response_data.append(
+                {
+                    "category_id": category.id,
+                    "amount": amount,
+                }
+            )
 
         return Response(response_data, status=status.HTTP_200_OK)

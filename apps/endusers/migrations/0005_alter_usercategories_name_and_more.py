@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('endusers', '0004_remove_category_from_usercategories'),
+        ("endusers", "0004_remove_category_from_usercategories"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='usercategories',
-            name='name',
-            field=models.CharField(help_text='Category name', max_length=100),
+            model_name="usercategories",
+            name="name",
+            field=models.CharField(help_text="Category name", max_length=100),
         ),
         migrations.AlterField(
-            model_name='usercategories',
-            name='user_id',
-            field=models.UUIDField(help_text='User ID who owns this category'),
+            model_name="usercategories",
+            name="user_id",
+            field=models.UUIDField(help_text="User ID who owns this category"),
         ),
     ]

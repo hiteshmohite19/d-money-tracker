@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('wishlist', '0002_alter_wishlist_options_and_more'),
+        ("wishlist", "0002_alter_wishlist_options_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='wishlist',
-            name='description',
-            field=models.TextField(blank=True, help_text='Description of the item'),
+            model_name="wishlist",
+            name="description",
+            field=models.TextField(blank=True, help_text="Description of the item"),
         ),
     ]

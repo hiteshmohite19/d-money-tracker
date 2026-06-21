@@ -4,19 +4,22 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('wishlist', '0001_initial'),
+        ("wishlist", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='wishlist',
-            options={'ordering': ['-expected_date', '-created_at'], 'verbose_name': 'Wishlist Item', 'verbose_name_plural': 'Wishlist Items'},
+            name="wishlist",
+            options={
+                "ordering": ["-expected_date", "-created_at"],
+                "verbose_name": "Wishlist Item",
+                "verbose_name_plural": "Wishlist Items",
+            },
         ),
         migrations.RenameField(
-            model_name='wishlist',
-            old_name='date',
-            new_name='expected_date',
+            model_name="wishlist",
+            old_name="date",
+            new_name="expected_date",
         ),
     ]

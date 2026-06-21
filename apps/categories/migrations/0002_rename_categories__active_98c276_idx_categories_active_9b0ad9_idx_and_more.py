@@ -4,24 +4,23 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('categories', '0001_initial'),
+        ("categories", "0001_initial"),
     ]
 
     operations = [
         migrations.RenameIndex(
-            model_name='category',
-            new_name='categories_active_9b0ad9_idx',
-            old_name='categories__active_98c276_idx',
+            model_name="category",
+            new_name="categories_active_9b0ad9_idx",
+            old_name="categories__active_98c276_idx",
         ),
         migrations.RenameIndex(
-            model_name='category',
-            new_name='categories_name_98d7d5_idx',
-            old_name='categories__name_e3ad98_idx',
+            model_name="category",
+            new_name="categories_name_98d7d5_idx",
+            old_name="categories__name_e3ad98_idx",
         ),
         migrations.AlterModelTable(
-            name='category',
-            table='categories',
+            name="category",
+            table="categories",
         ),
     ]

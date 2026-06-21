@@ -5,6 +5,7 @@ from .models import Transaction
 
 class SubCategoryDetailSerializer(serializers.Serializer):
     """Nested serializer for subcategory details."""
+
     id = serializers.UUIDField(read_only=True)
     name = serializers.CharField(read_only=True)
     description = serializers.CharField(read_only=True, allow_null=True)
@@ -16,7 +17,9 @@ class TransactionSerializer(serializers.ModelSerializer):
     category = serializers.CharField(source="user_category.name", read_only=True)
     sub_category = SubCategoryDetailSerializer(read_only=True)
     amount = serializers.DecimalField(max_digits=12, decimal_places=2, coerce_to_string=False)
-    emi_amount = serializers.DecimalField(max_digits=12, decimal_places=2, coerce_to_string=False, required=False, allow_null=True)
+    emi_amount = serializers.DecimalField(
+        max_digits=12, decimal_places=2, coerce_to_string=False, required=False, allow_null=True
+    )
     user_category_id = serializers.UUIDField(source="user_category.id", read_only=True)
     sub_category_id = serializers.UUIDField(source="sub_category.id", read_only=True)
 
@@ -60,7 +63,9 @@ class TransactionListSerializer(serializers.ModelSerializer):
 
     category = serializers.CharField(source="user_category.name", read_only=True)
     sub_category = serializers.CharField(source="sub_category.name", read_only=True)
-    sub_category_description = serializers.CharField(source="sub_category.description", read_only=True, allow_null=True)
+    sub_category_description = serializers.CharField(
+        source="sub_category.description", read_only=True, allow_null=True
+    )
     amount = serializers.DecimalField(max_digits=12, decimal_places=2, coerce_to_string=False)
     user_category_id = serializers.UUIDField(source="user_category.id", read_only=True)
     sub_category_id = serializers.UUIDField(source="sub_category.id", read_only=True)
@@ -88,7 +93,9 @@ class TransactionCreateUpdateSerializer(serializers.ModelSerializer):
     """Serializer for creating/updating transactions."""
 
     amount = serializers.DecimalField(max_digits=12, decimal_places=2, coerce_to_string=False)
-    emi_amount = serializers.DecimalField(max_digits=12, decimal_places=2, coerce_to_string=False, required=False, allow_null=True)
+    emi_amount = serializers.DecimalField(
+        max_digits=12, decimal_places=2, coerce_to_string=False, required=False, allow_null=True
+    )
 
     class Meta:
         model = Transaction

@@ -6,34 +6,63 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('endusers', '0007_alter_enduser_email_alter_enduser_mobile'),
+        ("endusers", "0007_alter_enduser_email_alter_enduser_mobile"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Wishlist',
+            name="Wishlist",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('item', models.CharField(help_text='Name of the wishlist item', max_length=255)),
-                ('price', models.DecimalField(decimal_places=2, help_text='Price of the item', max_digits=12)),
-                ('description', models.TextField(help_text='Description of the item')),
-                ('date', models.DateField(help_text='Target date or date added to wishlist')),
-                ('is_deleted', models.BooleanField(default=False, help_text='Soft delete flag')),
-                ('created_by', models.UUIDField(blank=True, help_text='User ID who created this wishlist item', null=True)),
-                ('updated_by', models.UUIDField(blank=True, help_text='User ID who last updated this wishlist item', null=True)),
-                ('user_id', models.ForeignKey(help_text='User who owns this wishlist item', on_delete=django.db.models.deletion.CASCADE, related_name='wishlists', to='endusers.enduser')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4, editable=False, primary_key=True, serialize=False
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("item", models.CharField(help_text="Name of the wishlist item", max_length=255)),
+                (
+                    "price",
+                    models.DecimalField(
+                        decimal_places=2, help_text="Price of the item", max_digits=12
+                    ),
+                ),
+                ("description", models.TextField(help_text="Description of the item")),
+                ("date", models.DateField(help_text="Target date or date added to wishlist")),
+                ("is_deleted", models.BooleanField(default=False, help_text="Soft delete flag")),
+                (
+                    "created_by",
+                    models.UUIDField(
+                        blank=True, help_text="User ID who created this wishlist item", null=True
+                    ),
+                ),
+                (
+                    "updated_by",
+                    models.UUIDField(
+                        blank=True,
+                        help_text="User ID who last updated this wishlist item",
+                        null=True,
+                    ),
+                ),
+                (
+                    "user_id",
+                    models.ForeignKey(
+                        help_text="User who owns this wishlist item",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="wishlists",
+                        to="endusers.enduser",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Wishlist Item',
-                'verbose_name_plural': 'Wishlist Items',
-                'db_table': 'wishlist',
-                'ordering': ['-date', '-created_at'],
+                "verbose_name": "Wishlist Item",
+                "verbose_name_plural": "Wishlist Items",
+                "db_table": "wishlist",
+                "ordering": ["-date", "-created_at"],
             },
         ),
     ]

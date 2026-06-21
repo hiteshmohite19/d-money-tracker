@@ -55,9 +55,9 @@ def _sync_monthly_budget(user):
     income = str(user.income or "0")
     expense = str(user.estimated_expense or "0")
 
-    last = UserMonthlyBudget.objects.filter(
-        user_id=user, active=True
-    ).order_by("-created_at").first()
+    last = (
+        UserMonthlyBudget.objects.filter(user_id=user, active=True).order_by("-created_at").first()
+    )
 
     if last and last.income == income and last.expense == expense:
         return
@@ -88,12 +88,10 @@ class EndUserViewSet(viewsets.ModelViewSet):
     queryset = EndUser.objects.all()
 
     def get_permissions(self):
-        # if self.action in ["register", "login", "signin", "refresh_token", "verify-otp"]:
-        #     print("verify-otp")
-        #     return [AllowAny()]
-
-        # print("need authentication")
-        return [AllowAny()]
+        public_actions = ["register", "login", "refresh_token", "verify_otp"]
+        if self.action in public_actions:
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -401,7 +399,7 @@ class EndUserViewSet(viewsets.ModelViewSet):
             # Generate tokens (outside transaction as it's read-only)
         tokens = generate_tokens(user)
 
-            # Get user categories
+        # Get user categories
         user_categories = UserCategories.objects.filter(
             user_id=user.id,
             is_deleted=False,

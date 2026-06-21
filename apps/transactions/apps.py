@@ -7,4 +7,4 @@ class TransactionsConfig(AppConfig):
 
     def ready(self):
         """Import signals when app is ready."""
-        import app.apps.transactions.signals  # noqa: F401
+        import apps.transactions.signals  # noqa: F401

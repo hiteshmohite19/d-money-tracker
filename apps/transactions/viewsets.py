@@ -28,16 +28,26 @@ class TransactionViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "list":
             return TransactionListSerializer
-        if self.action in ["create", "update", "partial_update", "create_transaction", "update_transaction"]:
+        if self.action in [
+            "create",
+            "update",
+            "partial_update",
+            "create_transaction",
+            "update_transaction",
+        ]:
             return TransactionCreateUpdateSerializer
         return TransactionSerializer
 
     def get_queryset(self):
         """Return transactions for authenticated user, excluding soft deleted."""
-        return Transaction.objects.filter(
-            user_id=self.request.user.id,
-            is_deleted=False,
-        ).select_related("user_category", "sub_category").order_by("-date", "-created_at")
+        return (
+            Transaction.objects.filter(
+                user_id=self.request.user.id,
+                is_deleted=False,
+            )
+            .select_related("user_category", "sub_category")
+            .order_by("-date", "-created_at")
+        )
 
     def list(self, request, *args, **kwargs):
         """GET /transactions/ - List all transactions for authenticated user."""

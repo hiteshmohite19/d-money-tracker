@@ -19,7 +19,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # ---------------------------------------------------------------------------
 # Core
 # ---------------------------------------------------------------------------
-SECRET_KEY = config("SECRET_KEY", "doiwfye4cot8yu9wp4oiut90n345p8mu5034")
+SECRET_KEY = config("SECRET_KEY")
 
 DEBUG = config("DEBUG", default=False, cast=bool)
 
@@ -58,7 +58,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",  # must sit right after SecurityMiddleware
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "corsheaders.middleware.CorsMiddleware",       # before CommonMiddleware
+    "corsheaders.middleware.CorsMiddleware",  # before CommonMiddleware
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -99,7 +99,7 @@ DATABASES = {
         "ENGINE": config("DB_ENGINE", default="django.db.backends.postgresql"),
         "NAME": config("DB_NAME", default="dmoneytracker"),
         "USER": config("DB_USER", default="postgres"),
-        "PASSWORD": config("DB_PASSWORD", default=""),
+        "PASSWORD": config("DB_PASSWORD"),
         "HOST": config("DB_HOST", default="localhost"),
         "PORT": config("DB_PORT", default="5432"),
         "OPTIONS": {
@@ -132,8 +132,8 @@ USE_TZ = True
 # Static files  (CSS / JS / images)
 # ---------------------------------------------------------------------------
 STATIC_URL = "/static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"           # collectstatic destination
-STATICFILES_DIRS = [BASE_DIR / "static"]         # extra source directories
+STATIC_ROOT = BASE_DIR / "staticfiles"  # collectstatic destination
+STATICFILES_DIRS = [BASE_DIR / "static"]  # extra source directories
 
 # ---------------------------------------------------------------------------
 # Media files  (user uploads)

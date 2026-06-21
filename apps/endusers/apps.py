@@ -8,4 +8,4 @@ class EndusersConfig(AppConfig):
 
     def ready(self):
         """Import signal handlers when Django starts."""
-        import app.apps.endusers.signals  # noqa: F401
+        import apps.endusers.signals  # noqa: F401

@@ -20,7 +20,7 @@ SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = "DENY"
 
-SECURE_HSTS_SECONDS = 31536000        # 1 year
+SECURE_HSTS_SECONDS = 31536000  # 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
@@ -51,3 +51,6 @@ REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = [  # noqa: F405
 # Logging  –  file handler set to WARNING in production
 # ---------------------------------------------------------------------------
 LOGGING["loggers"]["django"]["level"] = "WARNING"  # noqa: F405
+
+
+SECRET_KEY = config("SECRET_KEY")  # required in production — no fallback

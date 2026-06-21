@@ -4,39 +4,50 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('categories', '0002_rename_categories__active_98c276_idx_categories_active_9b0ad9_idx_and_more'),
-        ('endusers', '0002_rename_endusers_en_mobile_a329d0_idx_endusers_mobile_d96c6d_idx_and_more'),
+        (
+            "categories",
+            "0002_rename_categories__active_98c276_idx_categories_active_9b0ad9_idx_and_more",
+        ),
+        (
+            "endusers",
+            "0002_rename_endusers_en_mobile_a329d0_idx_endusers_mobile_d96c6d_idx_and_more",
+        ),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='usercategories',
-            name='created_by',
-            field=models.UUIDField(blank=True, help_text='User ID who created this user category', null=True),
+            model_name="usercategories",
+            name="created_by",
+            field=models.UUIDField(
+                blank=True, help_text="User ID who created this user category", null=True
+            ),
         ),
         migrations.AddField(
-            model_name='usercategories',
-            name='is_active',
-            field=models.BooleanField(default=True, help_text='Whether this user category is currently active'),
+            model_name="usercategories",
+            name="is_active",
+            field=models.BooleanField(
+                default=True, help_text="Whether this user category is currently active"
+            ),
         ),
         migrations.AddField(
-            model_name='usercategories',
-            name='is_deleted',
-            field=models.BooleanField(default=False, help_text='Soft delete flag'),
+            model_name="usercategories",
+            name="is_deleted",
+            field=models.BooleanField(default=False, help_text="Soft delete flag"),
         ),
         migrations.AddField(
-            model_name='usercategories',
-            name='updated_by',
-            field=models.UUIDField(blank=True, help_text='User ID who last updated this user category', null=True),
+            model_name="usercategories",
+            name="updated_by",
+            field=models.UUIDField(
+                blank=True, help_text="User ID who last updated this user category", null=True
+            ),
         ),
         migrations.AddIndex(
-            model_name='usercategories',
-            index=models.Index(fields=['is_active'], name='user_catego_is_acti_540100_idx'),
+            model_name="usercategories",
+            index=models.Index(fields=["is_active"], name="user_catego_is_acti_540100_idx"),
         ),
         migrations.AddIndex(
-            model_name='usercategories',
-            index=models.Index(fields=['is_deleted'], name='user_catego_is_dele_f3b832_idx'),
+            model_name="usercategories",
+            index=models.Index(fields=["is_deleted"], name="user_catego_is_dele_f3b832_idx"),
         ),
     ]

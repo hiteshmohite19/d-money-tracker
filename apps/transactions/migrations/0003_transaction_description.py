@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('transactions', '0002_alter_transaction_user_id'),
+        ("transactions", "0002_alter_transaction_user_id"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='transaction',
-            name='description',
-            field=models.TextField(blank=True, help_text='Optional description for the transaction', null=True),
+            model_name="transaction",
+            name="description",
+            field=models.TextField(
+                blank=True, help_text="Optional description for the transaction", null=True
+            ),
         ),
     ]

@@ -96,7 +96,7 @@ class EndUser(TimestampModel):
     )
 
     class Meta:
-        db_table="endusers"
+        db_table = "endusers"
         verbose_name = "End User"
         verbose_name_plural = "End Users"
         ordering = ["-created_at"]
@@ -216,7 +216,6 @@ class UserCategories(TimestampModel):
 
     def __repr__(self):
         return f"<UserCategories: {self.user_id} - {self.name}>"
-
 
 
 class UserMonthlyBudget(TimestampModel):

@@ -6,34 +6,72 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('categories', '0001_initial'),
+        ("categories", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='SubCategory',
+            name="SubCategory",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('name', models.CharField(help_text='Subcategory name', max_length=100)),
-                ('user_id', models.UUIDField(help_text='User ID who owns this subcategory')),
-                ('is_active', models.BooleanField(default=True, help_text='Whether this subcategory is currently active')),
-                ('is_deleted', models.BooleanField(default=False, help_text='Soft delete flag')),
-                ('created_by', models.UUIDField(blank=True, help_text='User ID who created this subcategory', null=True)),
-                ('updated_by', models.UUIDField(blank=True, help_text='User ID who last updated this subcategory', null=True)),
-                ('category', models.ForeignKey(help_text='Parent category', on_delete=django.db.models.deletion.CASCADE, related_name='subcategories', to='categories.category')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4, editable=False, primary_key=True, serialize=False
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("name", models.CharField(help_text="Subcategory name", max_length=100)),
+                ("user_id", models.UUIDField(help_text="User ID who owns this subcategory")),
+                (
+                    "is_active",
+                    models.BooleanField(
+                        default=True, help_text="Whether this subcategory is currently active"
+                    ),
+                ),
+                ("is_deleted", models.BooleanField(default=False, help_text="Soft delete flag")),
+                (
+                    "created_by",
+                    models.UUIDField(
+                        blank=True, help_text="User ID who created this subcategory", null=True
+                    ),
+                ),
+                (
+                    "updated_by",
+                    models.UUIDField(
+                        blank=True, help_text="User ID who last updated this subcategory", null=True
+                    ),
+                ),
+                (
+                    "category",
+                    models.ForeignKey(
+                        help_text="Parent category",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="subcategories",
+                        to="categories.category",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'Subcategory',
-                'verbose_name_plural': 'Subcategories',
-                'ordering': ['category', 'name'],
-                'indexes': [models.Index(fields=['user_id', 'category'], name='subcategori_user_id_91f25e_idx'), models.Index(fields=['is_active'], name='subcategori_is_acti_430fcf_idx'), models.Index(fields=['is_deleted'], name='subcategori_is_dele_fdba0b_idx')],
-                'constraints': [models.UniqueConstraint(fields=('user_id', 'category', 'name'), name='unique_subcategory_per_user_category')],
+                "verbose_name": "Subcategory",
+                "verbose_name_plural": "Subcategories",
+                "ordering": ["category", "name"],
+                "indexes": [
+                    models.Index(
+                        fields=["user_id", "category"], name="subcategori_user_id_91f25e_idx"
+                    ),
+                    models.Index(fields=["is_active"], name="subcategori_is_acti_430fcf_idx"),
+                    models.Index(fields=["is_deleted"], name="subcategori_is_dele_fdba0b_idx"),
+                ],
+                "constraints": [
+                    models.UniqueConstraint(
+                        fields=("user_id", "category", "name"),
+                        name="unique_subcategory_per_user_category",
+                    )
+                ],
             },
         ),
     ]

@@ -75,7 +75,6 @@ class MobileSignInSerializer(serializers.ModelSerializer):
         ]
 
 
-
 class UserCategoriesSerializer(serializers.ModelSerializer):
     """Serializer for UserCategories model."""
 

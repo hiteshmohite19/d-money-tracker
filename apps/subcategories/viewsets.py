@@ -51,9 +51,7 @@ class SubCategoryViewSet(viewsets.ModelViewSet):
         """GET /{user_category_id}/sub-categories/ - Flat list: one row per transaction with subcategory details."""
         user = request.user
 
-        response = SubCategoriesService.getSubCategoryTransactions(
-            user, user_category_id
-        )
+        response = SubCategoriesService.getSubCategoryTransactions(user, user_category_id)
 
         return Response(response)
 
@@ -74,9 +72,7 @@ class SubCategoryViewSet(viewsets.ModelViewSet):
         # Return all subcategories for the user
         # all_subcategories = self.get_queryset()
         # response_serializer = SubCategoryListSerializer(all_subcategories, many=True)
-        response = SubCategoriesService.getSubCategoryTransactions(
-            user, sub_cat_obj.user_category
-        )
+        response = SubCategoriesService.getSubCategoryTransactions(user, sub_cat_obj.user_category)
         return Response(response, status=status.HTTP_201_CREATED)
 
     def update_sub_category(self, request, pk=None):

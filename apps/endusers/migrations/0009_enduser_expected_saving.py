@@ -4,15 +4,20 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('endusers', '0008_usermonthlybudget'),
+        ("endusers", "0008_usermonthlybudget"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='enduser',
-            name='expected_saving',
-            field=models.DecimalField(blank=True, decimal_places=2, help_text="User's expected monthly savings", max_digits=12, null=True),
+            model_name="enduser",
+            name="expected_saving",
+            field=models.DecimalField(
+                blank=True,
+                decimal_places=2,
+                help_text="User's expected monthly savings",
+                max_digits=12,
+                null=True,
+            ),
         ),
     ]

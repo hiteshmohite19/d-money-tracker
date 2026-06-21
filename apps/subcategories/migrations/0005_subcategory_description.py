@@ -4,15 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('subcategories', '0004_rename_sub_categor_is_acti_4d8f6c_idx_sub_categor_is_acti_bdcb17_idx_and_more'),
+        (
+            "subcategories",
+            "0004_rename_sub_categor_is_acti_4d8f6c_idx_sub_categor_is_acti_bdcb17_idx_and_more",
+        ),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='subcategory',
-            name='description',
-            field=models.TextField(blank=True, help_text='Optional description for the subcategory', null=True),
+            model_name="subcategory",
+            name="description",
+            field=models.TextField(
+                blank=True, help_text="Optional description for the subcategory", null=True
+            ),
         ),
     ]

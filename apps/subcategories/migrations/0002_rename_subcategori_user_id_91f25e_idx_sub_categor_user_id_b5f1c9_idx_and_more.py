@@ -4,29 +4,28 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('subcategories', '0001_initial'),
+        ("subcategories", "0001_initial"),
     ]
 
     operations = [
         migrations.RenameIndex(
-            model_name='subcategory',
-            new_name='sub_categor_user_id_b5f1c9_idx',
-            old_name='subcategori_user_id_91f25e_idx',
+            model_name="subcategory",
+            new_name="sub_categor_user_id_b5f1c9_idx",
+            old_name="subcategori_user_id_91f25e_idx",
         ),
         migrations.RenameIndex(
-            model_name='subcategory',
-            new_name='sub_categor_is_acti_bdcb17_idx',
-            old_name='subcategori_is_acti_430fcf_idx',
+            model_name="subcategory",
+            new_name="sub_categor_is_acti_bdcb17_idx",
+            old_name="subcategori_is_acti_430fcf_idx",
         ),
         migrations.RenameIndex(
-            model_name='subcategory',
-            new_name='sub_categor_is_dele_80ac1a_idx',
-            old_name='subcategori_is_dele_fdba0b_idx',
+            model_name="subcategory",
+            new_name="sub_categor_is_dele_80ac1a_idx",
+            old_name="subcategori_is_dele_fdba0b_idx",
         ),
         migrations.AlterModelTable(
-            name='subcategory',
-            table='sub_categories',
+            name="subcategory",
+            table="sub_categories",
         ),
     ]

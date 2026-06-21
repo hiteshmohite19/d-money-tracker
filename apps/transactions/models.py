@@ -32,10 +32,7 @@ class Transaction(TimestampModel):
     """
 
     # User reference
-    user_id = models.UUIDField(
-        help_text="User ID who owns this transaction",
-        db_index=True
-    )
+    user_id = models.UUIDField(help_text="User ID who owns this transaction", db_index=True)
 
     # Category references
     user_category = models.ForeignKey(

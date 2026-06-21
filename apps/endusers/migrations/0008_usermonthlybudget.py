@@ -6,27 +6,38 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('endusers', '0007_alter_enduser_email_alter_enduser_mobile'),
+        ("endusers", "0007_alter_enduser_email_alter_enduser_mobile"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='UserMonthlyBudget',
+            name="UserMonthlyBudget",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('income', models.CharField(max_length=255)),
-                ('expense', models.CharField(max_length=255)),
-                ('month', models.CharField(max_length=20)),
-                ('year', models.CharField(max_length=10)),
-                ('active', models.BooleanField(default=True)),
-                ('user_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='monthly_budgets', to='endusers.enduser')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4, editable=False, primary_key=True, serialize=False
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("income", models.CharField(max_length=255)),
+                ("expense", models.CharField(max_length=255)),
+                ("month", models.CharField(max_length=20)),
+                ("year", models.CharField(max_length=10)),
+                ("active", models.BooleanField(default=True)),
+                (
+                    "user_id",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="monthly_budgets",
+                        to="endusers.enduser",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'user_monthly_budget',
+                "db_table": "user_monthly_budget",
             },
         ),
     ]

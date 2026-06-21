@@ -82,8 +82,8 @@ addopts = [
     "--verbose",
     "--strict-markers",
     "--tb=short",
-    "--cov=apps",
-    "--cov-report=term-missing",
-    "--cov-fail-under=0",  # Set to desired coverage threshold
 ]
 testpaths = ["apps"]
+markers = [
+    "django_db: mark test to use the database (pytest-django)",
+]

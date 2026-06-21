@@ -129,11 +129,13 @@ for category_name, subcats in subcategories_data.items():
 # =============================================================================
 print("\n5. Creating transactions...")
 
+
 # Helper function to get a subcategory
 def get_subcategory(category_name, subcat_index=0):
     if category_name in created_subcategories and created_subcategories[category_name]:
         return created_subcategories[category_name][subcat_index]
     return None
+
 
 # Create various transactions
 transactions_data = [
@@ -290,7 +292,9 @@ for trans_data in transactions_data:
         )
         if created:
             transaction_count += 1
-            print(f"  ✓ Created {trans_data['type']} transaction: ${trans_data['amount']} - {trans_data['with']}")
+            print(
+                f"  ✓ Created {trans_data['type']} transaction: ${trans_data['amount']} - {trans_data['with']}"
+            )
         else:
             print(f"  • Transaction already exists: {trans_data['type']} - ${trans_data['amount']}")
 

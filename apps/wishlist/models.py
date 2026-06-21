@@ -1,7 +1,7 @@
 from django.db import models
 
-from app.apps.core.models import TimestampModel
-from app.apps.endusers.models import EndUser
+from apps.core.models import TimestampModel
+from apps.endusers.models import EndUser
 
 
 class Wishlist(TimestampModel):

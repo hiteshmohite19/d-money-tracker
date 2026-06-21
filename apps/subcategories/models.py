@@ -1,7 +1,7 @@
 from django.db import models
 
-from app.apps.core.models import TimestampModel
-from app.apps.endusers.models import UserCategories
+from apps.core.models import TimestampModel
+from apps.endusers.models import UserCategories
 
 
 class SubCategory(TimestampModel):

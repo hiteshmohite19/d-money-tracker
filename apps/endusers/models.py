@@ -1,7 +1,7 @@
 from django.core.validators import EmailValidator, RegexValidator
 from django.db import models
 
-from app.apps.core.models import TimestampModel
+from apps.core.models import TimestampModel
 
 
 class EndUser(TimestampModel):

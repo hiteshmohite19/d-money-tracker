@@ -3,8 +3,8 @@ from decimal import Decimal
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from app.apps.categories.models import CategoryTransactions
-from app.apps.endusers.models import EndUser
+from apps.categories.models import CategoryTransactions
+from apps.endusers.models import EndUser
 
 from .models import Transaction, TransactionType
 

@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 from django.db.models import F
 
-from app.apps.endusers.models import EndUser
+from apps.endusers.models import EndUser
 
 
 class Command(BaseCommand):

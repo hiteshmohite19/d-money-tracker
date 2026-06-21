@@ -11,10 +11,10 @@ Usage:
 from datetime import date, timedelta
 from decimal import Decimal
 
-from app.apps.categories.models import Category
-from app.apps.endusers.models import EndUser, UserCategories
-from app.apps.subcategories.models import SubCategory
-from app.apps.transactions.models import Transaction, TransactionType
+from apps.categories.models import Category
+from apps.endusers.models import EndUser, UserCategories
+from apps.subcategories.models import SubCategory
+from apps.transactions.models import Transaction, TransactionType
 
 print("=" * 60)
 print("Starting database population with dummy data...")

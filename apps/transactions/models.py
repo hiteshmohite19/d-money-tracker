@@ -1,8 +1,8 @@
 from django.db import models
 
-from app.apps.core.models import TimestampModel
-from app.apps.endusers.models import UserCategories
-from app.apps.subcategories.models import SubCategory
+from apps.core.models import TimestampModel
+from apps.endusers.models import UserCategories
+from apps.subcategories.models import SubCategory
 
 
 class TransactionType(models.TextChoices):

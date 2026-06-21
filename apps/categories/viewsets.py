@@ -34,7 +34,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         Returns category_id and amount (as-is, negative for debits, positive for credits).
         Includes all user categories, even those without transactions (amount 0.0).
         """
-        from app.apps.endusers.models import UserCategories
+        from apps.endusers.models import UserCategories
         from decimal import Decimal
 
         user = request.user

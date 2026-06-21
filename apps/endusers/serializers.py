@@ -136,8 +136,8 @@ class UserCategoriesDetailSerializer(serializers.ModelSerializer):
 
     def get_subcategories(self, obj):
         """Fetch subcategories for this user category."""
-        from app.apps.subcategories.models import SubCategory
-        from app.apps.subcategories.serializers import SubCategoryListSerializer
+        from apps.subcategories.models import SubCategory
+        from apps.subcategories.serializers import SubCategoryListSerializer
 
         queryset = SubCategory.objects.filter(
             user_id=obj.user_id,

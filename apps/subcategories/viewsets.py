@@ -2,7 +2,7 @@ from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from app.apps.core.date_services import dateformat_ymd
+from apps.core.date_services import dateformat_ymd
 
 from .models import SubCategory
 from .serializers import (
@@ -10,7 +10,7 @@ from .serializers import (
     SubCategoryListSerializer,
     SubCategorySerializer,
 )
-from app.apps.subcategories.services import SubCategoriesService
+from apps.subcategories.services import SubCategoriesService
 
 
 class SubCategoryViewSet(viewsets.ModelViewSet):

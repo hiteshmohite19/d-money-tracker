@@ -1,5 +1,5 @@
-from app.apps.core.date_services import dateformat_ymd
-from app.apps.subcategories.models import SubCategory
+from apps.core.date_services import dateformat_ymd
+from apps.subcategories.models import SubCategory
 
 
 class SubCategoriesService:

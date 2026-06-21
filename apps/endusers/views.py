@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from app.apps.categories.models import Category
+from apps.categories.models import Category
 
 from .google_auth import verify_google_token
 from .jwt_utils import decode_refresh_token, generate_token, generate_tokens

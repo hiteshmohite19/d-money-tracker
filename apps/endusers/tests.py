@@ -3,7 +3,7 @@ Tests for the endusers app.
 """
 import pytest
 from django.contrib.auth import get_user_model
-from app.apps.endusers.models import EndUser
+from apps.endusers.models import EndUser
 
 
 @pytest.mark.django_db

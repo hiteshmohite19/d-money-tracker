@@ -1,5 +1,6 @@
 from django.urls import path
 from rest_framework.permissions import IsAuthenticated
+
 from apps.categories.viewsets import CategoryViewSet
 
 category_transactions = CategoryViewSet.as_view(

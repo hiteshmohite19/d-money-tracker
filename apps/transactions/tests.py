@@ -2,6 +2,7 @@
 
 import uuid
 from datetime import date
+
 import pytest
 from rest_framework import status
 

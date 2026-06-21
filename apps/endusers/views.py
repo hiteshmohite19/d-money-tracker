@@ -231,7 +231,7 @@ class EndUserViewSet(viewsets.ModelViewSet):
                 "is_active": True,
             }
 
-            serializer = EndUserCreateUpdateSerializer(data=user_data)
+            serializer = EndUserSerializer(data=user_data)
             serializer.is_valid(raise_exception=True)
             user = serializer.save()
             created = True

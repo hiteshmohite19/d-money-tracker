@@ -1,13 +1,12 @@
 """Tests for endusers app — auth, profile, and user category endpoints."""
 
 import uuid
+
 import pytest
 from rest_framework import status
 
 from apps.categories.models import Category
-from apps.endusers.jwt_utils import generate_refresh_token, generate_token
-from apps.endusers.models import EndUser, UserCategories
-
+from apps.endusers.jwt_utils import generate_refresh_token
 
 # ---------------------------------------------------------------------------
 # POST /api/users/register/

@@ -6,6 +6,8 @@ Activate:
     gunicorn dmoneytracker.wsgi:application
 """
 
+from decouple import config  # noqa: F401
+
 from .base import *  # noqa: F401, F403
 
 # ---------------------------------------------------------------------------

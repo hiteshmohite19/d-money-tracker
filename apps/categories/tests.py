@@ -1,12 +1,11 @@
 """Tests for categories app — category-transactions endpoint."""
 
-import pytest
 from decimal import Decimal
-from datetime import date
+
+import pytest
 from rest_framework import status
 
 from apps.categories.models import CategoryTransactions
-from apps.transactions.models import Transaction, TransactionType
 
 
 @pytest.mark.django_db

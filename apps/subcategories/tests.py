@@ -1,6 +1,7 @@
 """Tests for subcategories app — subcategory CRUD endpoints."""
 
 import uuid
+
 import pytest
 from rest_framework import status
 
@@ -25,6 +26,7 @@ class TestListSubcategoriesByUserCategory:
         self, auth_client, test_user, user_category, subcategory, transaction
     ):
         from datetime import date
+
         from apps.transactions.models import Transaction, TransactionType
         Transaction.objects.create(
             user_id=test_user.id,

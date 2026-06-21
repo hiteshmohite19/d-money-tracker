@@ -1,6 +1,7 @@
 """Tests for wishlist app — wishlist CRUD endpoints."""
 
 import uuid
+
 import pytest
 from rest_framework import status
 
@@ -123,7 +124,7 @@ class TestDeleteWishlistItem:
         assert wishlist_item.is_deleted is True
 
     def test_delete_returns_remaining_list(self, auth_client, wishlist_item, db, test_user):
-        other = Wishlist.objects.create(
+        Wishlist.objects.create(
             user_id=test_user,
             item="Keyboard",
             price="5000.00",

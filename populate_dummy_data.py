@@ -59,8 +59,8 @@ try:
     print(f"  ✓ Found user: {user.full_name} ({user.email or 'No email'})")
     print(f"  User ID: {user.id}")
 except EndUser.DoesNotExist:
-    print(f"  ✗ Error: User with mobile +918956047638 not found!")
-    print(f"  Please create the user first or update the mobile number in the script.")
+    print("  ✗ Error: User with mobile +918956047638 not found!")
+    print("  Please create the user first or update the mobile number in the script.")
     exit(1)
 
 # =============================================================================
@@ -304,7 +304,7 @@ for trans_data in transactions_data:
 print("\n" + "=" * 60)
 print("Database population completed!")
 print("=" * 60)
-print(f"\nSummary:")
+print("\nSummary:")
 print(f"  - Categories: {len(created_categories)}")
 print(f"  - User: {user.full_name} (ID: {user.id})")
 print(f"  - User Categories: {len(user_categories_map)}")

@@ -71,6 +71,7 @@ def subcategory(db, test_user, user_category):
 @pytest.fixture
 def transaction(db, test_user, user_category, subcategory):
     from datetime import date
+
     from apps.transactions.models import Transaction, TransactionType
     return Transaction.objects.create(
         user_id=test_user.id,

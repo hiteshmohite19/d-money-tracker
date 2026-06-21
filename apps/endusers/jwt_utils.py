@@ -1,10 +1,9 @@
-import jwt
 from datetime import datetime, timedelta, timezone
 
+import jwt
 from django.conf import settings
 
 from .models import EndUser
-
 
 # JWT Configuration
 JWT_SECRET = getattr(settings, "JWT_SECRET", settings.SECRET_KEY)

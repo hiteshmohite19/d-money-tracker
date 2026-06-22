@@ -11,10 +11,10 @@ Usage:
 from datetime import date, timedelta
 from decimal import Decimal
 
-from app.apps.categories.models import Category
-from app.apps.endusers.models import EndUser, UserCategories
-from app.apps.subcategories.models import SubCategory
-from app.apps.transactions.models import Transaction, TransactionType
+from apps.categories.models import Category
+from apps.endusers.models import EndUser, UserCategories
+from apps.subcategories.models import SubCategory
+from apps.transactions.models import Transaction, TransactionType
 
 print("=" * 60)
 print("Starting database population with dummy data...")
@@ -59,8 +59,8 @@ try:
     print(f"  ✓ Found user: {user.full_name} ({user.email or 'No email'})")
     print(f"  User ID: {user.id}")
 except EndUser.DoesNotExist:
-    print(f"  ✗ Error: User with mobile +918956047638 not found!")
-    print(f"  Please create the user first or update the mobile number in the script.")
+    print("  ✗ Error: User with mobile +918956047638 not found!")
+    print("  Please create the user first or update the mobile number in the script.")
     exit(1)
 
 # =============================================================================
@@ -129,11 +129,13 @@ for category_name, subcats in subcategories_data.items():
 # =============================================================================
 print("\n5. Creating transactions...")
 
+
 # Helper function to get a subcategory
 def get_subcategory(category_name, subcat_index=0):
     if category_name in created_subcategories and created_subcategories[category_name]:
         return created_subcategories[category_name][subcat_index]
     return None
+
 
 # Create various transactions
 transactions_data = [
@@ -290,7 +292,9 @@ for trans_data in transactions_data:
         )
         if created:
             transaction_count += 1
-            print(f"  ✓ Created {trans_data['type']} transaction: ${trans_data['amount']} - {trans_data['with']}")
+            print(
+                f"  ✓ Created {trans_data['type']} transaction: ${trans_data['amount']} - {trans_data['with']}"
+            )
         else:
             print(f"  • Transaction already exists: {trans_data['type']} - ${trans_data['amount']}")
 
@@ -300,7 +304,7 @@ for trans_data in transactions_data:
 print("\n" + "=" * 60)
 print("Database population completed!")
 print("=" * 60)
-print(f"\nSummary:")
+print("\nSummary:")
 print(f"  - Categories: {len(created_categories)}")
 print(f"  - User: {user.full_name} (ID: {user.id})")
 print(f"  - User Categories: {len(user_categories_map)}")

@@ -76,14 +76,14 @@ line-ending = "auto"
 # Pytest configuration
 # ---------------------------------------------------------------------------
 [tool.pytest.ini_options]
-DJANGO_SETTINGS_MODULE = "dmoneytracker.settings.dev"
+DJANGO_SETTINGS_MODULE = "dmoneytracker.settings.development"
 python_files = ["tests.py", "test_*.py", "*_tests.py"]
 addopts = [
     "--verbose",
     "--strict-markers",
     "--tb=short",
-    "--cov=apps",
-    "--cov-report=term-missing",
-    "--cov-fail-under=0",  # Set to desired coverage threshold
 ]
 testpaths = ["apps"]
+markers = [
+    "django_db: mark test to use the database (pytest-django)",
+]

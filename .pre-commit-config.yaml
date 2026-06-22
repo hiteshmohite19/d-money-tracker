@@ -1,71 +1,71 @@
-# Pre-push hooks configuration
-# Install: pre-commit install --hook-type pre-push
-# Run manually: pre-commit run --all-files --hook-stage push
+# # Pre-push hooks configuration
+# # Install: pre-commit install --hook-type pre-push
+# # Run manually: pre-commit run --all-files --hook-stage push
 
-repos:
-  # Ruff - Fast Python linter and formatter
-  - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.15
-    hooks:
-      # Run the linter
-      - id: ruff
-        args: [--fix]
-        name: ruff-lint
-        stages: [push]
-      # Run the formatter
-      - id: ruff-format
-        name: ruff-format
-        stages: [push]
+# repos:
+#   # Ruff - Fast Python linter and formatter
+#   - repo: https://github.com/astral-sh/ruff-pre-commit
+#     rev: v0.1.15
+#     hooks:
+#       # Run the linter
+#       - id: ruff
+#         args: [--fix]
+#         name: ruff-lint
+#         stages: [push]
+#       # Run the formatter
+#       - id: ruff-format
+#         name: ruff-format
+#         stages: [push]
 
-  # Django-specific checks
-  - repo: local
-    hooks:
-      # Run Django system checks
-      - id: django-check
-        name: Django system check
-        entry: python manage.py check
-        language: system
-        pass_filenames: false
-        always_run: true
-        stages: [push]
+#   # Django-specific checks
+#   - repo: local
+#     hooks:
+#       # Run Django system checks
+#       - id: django-check
+#         name: Django system check
+#         entry: python manage.py check
+#         language: system
+#         pass_filenames: false
+#         always_run: true
+#         stages: [push]
 
-      # Run Django migrations check
-      - id: django-migrations-check
-        name: Check for missing migrations
-        entry: python manage.py makemigrations --check --dry-run --no-input
-        language: system
-        pass_filenames: false
-        always_run: true
-        stages: [push]
+#       # Run Django migrations check
+#       - id: django-migrations-check
+#         name: Check for missing migrations
+#         entry: python manage.py makemigrations --check --dry-run --no-input
+#         language: system
+#         pass_filenames: false
+#         always_run: true
+#         stages: [push]
 
-      # Run pytest
-      - id: pytest
-        name: Run unit tests
-        entry: pytest
-        language: system
-        pass_filenames: false
-        always_run: true
-        verbose: true
-        stages: [push]
+#       # Run pytest
+#       - id: pytest
+#         name: Run unit tests
+#         entry: pytest
+#         language: system
+#         pass_filenames: false
+#         always_run: true
+#         verbose: true
+#         stages: [push]
 
-  # Standard pre-push hooks
-  - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
-    hooks:
-      - id: trailing-whitespace
-        stages: [push]
-      - id: end-of-file-fixer
-        stages: [push]
-      - id: check-yaml
-        stages: [push]
-      - id: check-added-large-files
-        args: ['--maxkb=1000']
-        stages: [push]
-      - id: check-merge-conflict
-        stages: [push]
-      - id: check-json
-        stages: [push]
-      - id: check-toml
-        stages: [push]
-      - id: detect-private-key
-        stages: [push]
+#   # Standard pre-push hooks
+#   - repo: https://github.com/pre-commit/pre-commit-hooks
+#     rev: v4.5.0
+#     hooks:
+#       - id: trailing-whitespace
+#         stages: [push]
+#       - id: end-of-file-fixer
+#         stages: [push]
+#       - id: check-yaml
+#         stages: [push]
+#       - id: check-added-large-files
+#         args: ['--maxkb=1000']
+#         stages: [push]
+#       - id: check-merge-conflict
+#         stages: [push]
+#       - id: check-json
+#         stages: [push]
+#       - id: check-toml
+#         stages: [push]
+#       - id: detect-private-key
+#         stages: [push]

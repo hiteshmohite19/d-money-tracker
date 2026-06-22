@@ -20,7 +20,7 @@ RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
 RUN mkdir -p logs static && \
-    python manage.py collectstatic --noinput
+    SECRET_KEY=build-only-dummy-key python manage.py collectstatic --noinput
 
 EXPOSE 8000
 

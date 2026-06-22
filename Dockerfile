@@ -19,7 +19,7 @@ RUN git clone --depth=1 --branch ${BRANCH} \
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-RUN mkdir -p logs static && \
+RUN mkdir -p logs static staticfiles && \
     SECRET_KEY=build-only-dummy-key python manage.py collectstatic --noinput
 
 EXPOSE 8000

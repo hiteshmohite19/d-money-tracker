@@ -61,44 +61,56 @@ class TestCreateTransaction:
     URL = "/api/transactions/transaction/"
 
     def test_create_debit_transaction(self, auth_client, user_category, subcategory):
-        response = auth_client.post(self.URL, {
-            "user_category": str(user_category.id),
-            "sub_category": str(subcategory.id),
-            "transaction_type": "DEBIT",
-            "transaction_with": "Amazon",
-            "amount": "299.99",
-            "date": str(date.today()),
-        })
+        response = auth_client.post(
+            self.URL,
+            {
+                "user_category": str(user_category.id),
+                "sub_category": str(subcategory.id),
+                "transaction_type": "DEBIT",
+                "transaction_with": "Amazon",
+                "amount": "299.99",
+                "date": str(date.today()),
+            },
+        )
         assert response.status_code == status.HTTP_201_CREATED
 
     def test_create_credit_transaction(self, auth_client, user_category, subcategory):
-        response = auth_client.post(self.URL, {
-            "user_category": str(user_category.id),
-            "sub_category": str(subcategory.id),
-            "transaction_type": "CREDIT",
-            "transaction_with": "Employer",
-            "amount": "5000.00",
-            "date": str(date.today()),
-        })
+        response = auth_client.post(
+            self.URL,
+            {
+                "user_category": str(user_category.id),
+                "sub_category": str(subcategory.id),
+                "transaction_type": "CREDIT",
+                "transaction_with": "Employer",
+                "amount": "5000.00",
+                "date": str(date.today()),
+            },
+        )
         assert response.status_code == status.HTTP_201_CREATED
 
     def test_create_returns_full_list(self, auth_client, user_category, subcategory, transaction):
-        auth_client.post(self.URL, {
-            "user_category": str(user_category.id),
-            "sub_category": str(subcategory.id),
-            "transaction_type": "DEBIT",
-            "transaction_with": "Netflix",
-            "amount": "15.99",
-            "date": str(date.today()),
-        })
-        response = auth_client.post(self.URL, {
-            "user_category": str(user_category.id),
-            "sub_category": str(subcategory.id),
-            "transaction_type": "DEBIT",
-            "transaction_with": "Spotify",
-            "amount": "9.99",
-            "date": str(date.today()),
-        })
+        auth_client.post(
+            self.URL,
+            {
+                "user_category": str(user_category.id),
+                "sub_category": str(subcategory.id),
+                "transaction_type": "DEBIT",
+                "transaction_with": "Netflix",
+                "amount": "15.99",
+                "date": str(date.today()),
+            },
+        )
+        response = auth_client.post(
+            self.URL,
+            {
+                "user_category": str(user_category.id),
+                "sub_category": str(subcategory.id),
+                "transaction_type": "DEBIT",
+                "transaction_with": "Spotify",
+                "amount": "9.99",
+                "date": str(date.today()),
+            },
+        )
         assert response.status_code == status.HTTP_201_CREATED
         assert len(response.json()) >= 3
 
@@ -107,14 +119,17 @@ class TestCreateTransaction:
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     def test_create_amount_returned_as_number(self, auth_client, user_category, subcategory):
-        response = auth_client.post(self.URL, {
-            "user_category": str(user_category.id),
-            "sub_category": str(subcategory.id),
-            "transaction_type": "DEBIT",
-            "transaction_with": "Shop",
-            "amount": "49.99",
-            "date": str(date.today()),
-        })
+        response = auth_client.post(
+            self.URL,
+            {
+                "user_category": str(user_category.id),
+                "sub_category": str(subcategory.id),
+                "transaction_type": "DEBIT",
+                "transaction_with": "Shop",
+                "amount": "49.99",
+                "date": str(date.today()),
+            },
+        )
         amount = response.json()[0]["amount"]
         assert isinstance(amount, (int, float))
 

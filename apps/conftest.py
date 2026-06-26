@@ -12,6 +12,7 @@ def api_client():
 @pytest.fixture
 def test_user(db):
     from apps.endusers.models import EndUser
+
     return EndUser.objects.create(
         first_name="Test",
         last_name="User",
@@ -23,6 +24,7 @@ def test_user(db):
 @pytest.fixture
 def second_user(db):
     from apps.endusers.models import EndUser
+
     return EndUser.objects.create(
         first_name="Other",
         last_name="User",
@@ -34,6 +36,7 @@ def second_user(db):
 @pytest.fixture
 def auth_client(api_client, test_user):
     from apps.endusers.jwt_utils import generate_token
+
     token = generate_token(test_user)
     api_client.credentials(HTTP_AUTHORIZATION=f"Bearer {token}")
     return api_client
@@ -42,12 +45,14 @@ def auth_client(api_client, test_user):
 @pytest.fixture
 def system_category(db):
     from apps.categories.models import Category
+
     return Category.objects.create(name="Food & Dining", active=True)
 
 
 @pytest.fixture
 def user_category(test_user, system_category):
     from apps.endusers.models import UserCategories
+
     return UserCategories.objects.create(
         user_id=test_user.id,
         name=system_category.name,
@@ -59,6 +64,7 @@ def user_category(test_user, system_category):
 @pytest.fixture
 def subcategory(db, test_user, user_category):
     from apps.subcategories.models import SubCategory
+
     return SubCategory.objects.create(
         user_id=test_user.id,
         user_category=user_category,
@@ -73,6 +79,7 @@ def transaction(db, test_user, user_category, subcategory):
     from datetime import date
 
     from apps.transactions.models import Transaction, TransactionType
+
     return Transaction.objects.create(
         user_id=test_user.id,
         user_category=user_category,

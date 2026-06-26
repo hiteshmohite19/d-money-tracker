@@ -52,6 +52,7 @@ class TestCategoryTransactions:
 
     def test_excludes_other_users_categories(self, auth_client, second_user, db):
         from apps.endusers.models import UserCategories
+
         other_cat = UserCategories.objects.create(
             user_id=second_user.id,
             name="Other User Category",

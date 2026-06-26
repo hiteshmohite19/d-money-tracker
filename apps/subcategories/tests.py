@@ -28,6 +28,7 @@ class TestListSubcategoriesByUserCategory:
         from datetime import date
 
         from apps.transactions.models import Transaction, TransactionType
+
         Transaction.objects.create(
             user_id=test_user.id,
             user_category=user_category,
@@ -53,17 +54,23 @@ class TestCreateSubcategory:
     URL = "/api/subcategories/sub-category/"
 
     def test_create_subcategory_success(self, auth_client, user_category):
-        response = auth_client.post(self.URL, {
-            "name": "Coffee Shops",
-            "user_category": str(user_category.id),
-        })
+        response = auth_client.post(
+            self.URL,
+            {
+                "name": "Coffee Shops",
+                "user_category": str(user_category.id),
+            },
+        )
         assert response.status_code == status.HTTP_201_CREATED
 
     def test_create_returns_list_for_user_category(self, auth_client, user_category, subcategory):
-        response = auth_client.post(self.URL, {
-            "name": "Restaurants",
-            "user_category": str(user_category.id),
-        })
+        response = auth_client.post(
+            self.URL,
+            {
+                "name": "Restaurants",
+                "user_category": str(user_category.id),
+            },
+        )
         assert response.status_code == status.HTTP_201_CREATED
         names = [item["name"] for item in response.json()]
         assert "Restaurants" in names
@@ -73,10 +80,13 @@ class TestCreateSubcategory:
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     def test_create_unauthenticated_returns_401(self, api_client, user_category):
-        response = api_client.post(self.URL, {
-            "name": "Coffee Shops",
-            "user_category": str(user_category.id),
-        })
+        response = api_client.post(
+            self.URL,
+            {
+                "name": "Coffee Shops",
+                "user_category": str(user_category.id),
+            },
+        )
         assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 

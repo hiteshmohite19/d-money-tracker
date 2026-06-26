@@ -54,5 +54,9 @@ REST_FRAMEWORK["DEFAULT_RENDERER_CLASSES"] = [  # noqa: F405
 # ---------------------------------------------------------------------------
 LOGGING["loggers"]["django"]["level"] = "WARNING"  # noqa: F405
 
+SECURE_PROXY_SSL_HEADER = (
+    'HTTP_X_FORWARDED_PROTO',
+    'https'
+)
 
 SECRET_KEY = config("SECRET_KEY")  # required in production — no fallback

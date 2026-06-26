@@ -34,7 +34,7 @@ services:
     image: ghcr.io/hiteshmohite19/d-money-tracker:latest
     restart: unless-stopped
     ports:
-      - "8000:8000"
+      - "8000"
     environment:
       SECRET_KEY: ${SECRET_KEY}
       DJANGO_SETTINGS_MODULE: dmoneytracker.settings.production
@@ -48,9 +48,11 @@ services:
       db:
         condition: service_healthy
     command: >
-      sh -c "python manage.py migrate --noinput &&
-             gunicorn dmoneytracker.wsgi:application
-             --bind 0.0.0.0:8000 --workers 3"
+      sh -c "
+      python manage.py migrate --noinput &&
+      python manage.py collectstatic --noinput &&
+      gunicorn dmoneytracker.wsgi:application --bind 0.0.0.0:8000 --workers 3"
 
 volumes:
   postgres_data:
+  static_volume:

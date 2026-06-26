@@ -12,17 +12,21 @@ from apps.endusers.jwt_utils import generate_refresh_token
 # POST /api/users/register/
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.django_db
 class TestRegister:
     URL = "/api/users/register/"
 
     def test_register_success(self, api_client):
-        response = api_client.post(self.URL, {
-            "first_name": "John",
-            "last_name": "Doe",
-            "email": "john@example.com",
-            "mobile": "+919999999901",
-        })
+        response = api_client.post(
+            self.URL,
+            {
+                "first_name": "John",
+                "last_name": "Doe",
+                "email": "john@example.com",
+                "mobile": "+919999999901",
+            },
+        )
         assert response.status_code == status.HTTP_201_CREATED
         data = response.json()
         assert "access_token" in data
@@ -33,22 +37,28 @@ class TestRegister:
     def test_register_creates_user_categories_from_system(self, api_client, db):
         Category.objects.create(name="Salary", active=True)
         Category.objects.create(name="Food", active=True)
-        response = api_client.post(self.URL, {
-            "first_name": "Jane",
-            "last_name": "Doe",
-            "email": "jane@example.com",
-            "mobile": "+919999999902",
-        })
+        response = api_client.post(
+            self.URL,
+            {
+                "first_name": "Jane",
+                "last_name": "Doe",
+                "email": "jane@example.com",
+                "mobile": "+919999999902",
+            },
+        )
         assert response.status_code == status.HTTP_201_CREATED
         assert len(response.json()["user_categories"]) == 2
 
     def test_register_duplicate_email_returns_400(self, api_client, test_user):
-        response = api_client.post(self.URL, {
-            "first_name": "Dup",
-            "last_name": "User",
-            "email": test_user.email,
-            "mobile": "+919999999903",
-        })
+        response = api_client.post(
+            self.URL,
+            {
+                "first_name": "Dup",
+                "last_name": "User",
+                "email": test_user.email,
+                "mobile": "+919999999903",
+            },
+        )
         assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     def test_register_missing_fields_returns_400(self, api_client):
@@ -59,6 +69,7 @@ class TestRegister:
 # ---------------------------------------------------------------------------
 # POST /api/users/login/
 # ---------------------------------------------------------------------------
+
 
 @pytest.mark.django_db
 class TestLogin:
@@ -95,6 +106,7 @@ class TestLogin:
 # POST /api/users/verify-otp/
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.django_db
 class TestVerifyOtp:
     URL = "/api/users/verify-otp/"
@@ -129,6 +141,7 @@ class TestVerifyOtp:
 # POST /api/users/refresh-token/
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.django_db
 class TestRefreshToken:
     URL = "/api/users/refresh-token/"
@@ -159,6 +172,7 @@ class TestRefreshToken:
 # GET /api/users/profile/
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.django_db
 class TestProfile:
     URL = "/api/users/profile/"
@@ -177,6 +191,7 @@ class TestProfile:
 # POST /api/users/update-user/
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.django_db
 class TestUpdateUser:
     URL = "/api/users/update-user/"
@@ -194,6 +209,7 @@ class TestUpdateUser:
 # ---------------------------------------------------------------------------
 # POST /api/users/deactivate/
 # ---------------------------------------------------------------------------
+
 
 @pytest.mark.django_db
 class TestDeactivate:
@@ -214,6 +230,7 @@ class TestDeactivate:
 # GET /api/users/user-categories/
 # POST /api/users/category/
 # ---------------------------------------------------------------------------
+
 
 @pytest.mark.django_db
 class TestUserCategories:
@@ -256,6 +273,7 @@ class TestUserCategories:
 # POST /api/users/update-categories/<uuid>/
 # ---------------------------------------------------------------------------
 
+
 @pytest.mark.django_db
 class TestUpdateUserCategory:
     def test_update_user_category_success(self, auth_client, user_category):
@@ -273,6 +291,7 @@ class TestUpdateUserCategory:
 # ---------------------------------------------------------------------------
 # GET /api/users/delete-category/?id=<uuid>
 # ---------------------------------------------------------------------------
+
 
 @pytest.mark.django_db
 class TestDeleteUserCategory:

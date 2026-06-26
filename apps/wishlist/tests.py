@@ -58,30 +58,39 @@ class TestCreateWishlistItem:
     URL = "/api/wishlist/create/"
 
     def test_create_item_success(self, auth_client):
-        response = auth_client.post(self.URL, {
-            "item": "AirPods Pro",
-            "price": "25000.00",
-            "expected_date": "2026-12-01",
-        })
+        response = auth_client.post(
+            self.URL,
+            {
+                "item": "AirPods Pro",
+                "price": "25000.00",
+                "expected_date": "2026-12-01",
+            },
+        )
         assert response.status_code == status.HTTP_200_OK
 
     def test_create_returns_full_list(self, auth_client, wishlist_item):
-        response = auth_client.post(self.URL, {
-            "item": "iPad",
-            "price": "60000.00",
-            "expected_date": "2026-12-01",
-        })
+        response = auth_client.post(
+            self.URL,
+            {
+                "item": "iPad",
+                "price": "60000.00",
+                "expected_date": "2026-12-01",
+            },
+        )
         items = [i["item"] for i in response.json()]
         assert "MacBook Pro" in items
         assert "iPad" in items
 
     def test_create_with_optional_fields(self, auth_client):
-        response = auth_client.post(self.URL, {
-            "item": "Gaming Chair",
-            "price": "15000.00",
-            "description": "Ergonomic office chair",
-            "expected_date": "2026-09-01",
-        })
+        response = auth_client.post(
+            self.URL,
+            {
+                "item": "Gaming Chair",
+                "price": "15000.00",
+                "description": "Ergonomic office chair",
+                "expected_date": "2026-09-01",
+            },
+        )
         assert response.status_code == status.HTTP_200_OK
 
     def test_create_missing_item_returns_400(self, auth_client):

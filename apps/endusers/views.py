@@ -5,7 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from .jwt_utils import generate_tokens
-from .models import EndUser, UserCategories, UserMonthlyBudget
+from .models import EndUser, UserCategories
 from .serializers import (
     EndUserListSerializer,
     EndUserSerializer,

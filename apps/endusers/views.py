@@ -4,6 +4,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
+from .jwt_utils import generate_tokens
 from .models import EndUser, UserCategories, UserMonthlyBudget
 from .serializers import (
     EndUserListSerializer,

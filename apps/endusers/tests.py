@@ -15,7 +15,7 @@ from apps.endusers.jwt_utils import generate_refresh_token
 
 @pytest.mark.django_db
 class TestRegister:
-    URL = "/api/users/register/"
+    URL = "/api/auth/register/"
 
     def test_register_success(self, api_client):
         response = api_client.post(
@@ -73,7 +73,7 @@ class TestRegister:
 
 @pytest.mark.django_db
 class TestLogin:
-    URL = "/api/users/login/"
+    URL = "/api/auth/login/"
 
     def test_login_success(self, api_client, test_user):
         response = api_client.post(self.URL, {"mobile": test_user.mobile})
@@ -144,7 +144,7 @@ class TestVerifyOtp:
 
 @pytest.mark.django_db
 class TestRefreshToken:
-    URL = "/api/users/refresh-token/"
+    URL = "/api/auth/refresh-token/"
 
     def test_refresh_token_success(self, api_client, test_user):
         refresh = generate_refresh_token(test_user)

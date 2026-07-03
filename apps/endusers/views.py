@@ -70,50 +70,6 @@ class EndUserViewSet(viewsets.ModelViewSet):
         serializer = EndUserSerializer(user)
         return Response(serializer.data)
 
-    @action(detail=False, methods=["post"], url_path="refresh-token")
-    def refresh_token(self, request):
-        """POST /refresh-token/ - Get new access token using refresh token."""
-        refresh_token = request.data.get("refresh_token")
-
-        if not refresh_token:
-            return Response(
-                {"error": "refresh_token is required"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        # Decode and validate refresh token
-        payload = decode_refresh_token(refresh_token)
-        if not payload:
-            return Response(
-                {"error": "Invalid or expired refresh token"},
-                status=status.HTTP_401_UNAUTHORIZED,
-            )
-
-        # Get user from token
-        try:
-            user = EndUser.objects.get(id=payload["id"])
-        except EndUser.DoesNotExist:
-            return Response(
-                {"error": "User not found"},
-                status=status.HTTP_404_NOT_FOUND,
-            )
-
-        if not user.is_active:
-            return Response(
-                {"error": "User account is deactivated"},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        # Generate new access token
-        new_access_token = generate_token(user)
-
-        return Response(
-            {
-                "access_token": new_access_token,
-            },
-            status=status.HTTP_200_OK,
-        )
-
     @action(detail=False, methods=["post"], url_path="verify-otp")
     def verify_otp(self, request):
         """

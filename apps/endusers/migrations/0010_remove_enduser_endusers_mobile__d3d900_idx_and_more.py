@@ -5,31 +5,40 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('endusers', '0009_enduser_expected_saving'),
+        ("endusers", "0009_enduser_expected_saving"),
     ]
 
     operations = [
         migrations.RemoveIndex(
-            model_name='enduser',
-            name='endusers_mobile__d3d900_idx',
+            model_name="enduser",
+            name="endusers_mobile__d3d900_idx",
         ),
         migrations.RemoveIndex(
-            model_name='enduser',
-            name='endusers_email_v_e766e7_idx',
+            model_name="enduser",
+            name="endusers_email_v_e766e7_idx",
         ),
         migrations.AlterField(
-            model_name='enduser',
-            name='mobile',
-            field=models.CharField(blank=True, help_text="User's mobile number (unique)", max_length=20, validators=[django.core.validators.RegexValidator(message="Mobile number must be entered in the format: '+999999999'. Up to 15 digits allowed.", regex='^\\+?1?\\d{9,15}$')]),
+            model_name="enduser",
+            name="mobile",
+            field=models.CharField(
+                blank=True,
+                help_text="User's mobile number (unique)",
+                max_length=20,
+                validators=[
+                    django.core.validators.RegexValidator(
+                        message="Mobile number must be entered in the format: '+999999999'. Up to 15 digits allowed.",
+                        regex="^\\+?1?\\d{9,15}$",
+                    )
+                ],
+            ),
         ),
         migrations.AddIndex(
-            model_name='enduser',
-            index=models.Index(fields=['first_name'], name='endusers_first_n_47173a_idx'),
+            model_name="enduser",
+            index=models.Index(fields=["first_name"], name="endusers_first_n_47173a_idx"),
         ),
         migrations.AddIndex(
-            model_name='enduser',
-            index=models.Index(fields=['last_name'], name='endusers_last_na_134919_idx'),
+            model_name="enduser",
+            index=models.Index(fields=["last_name"], name="endusers_last_na_134919_idx"),
         ),
     ]

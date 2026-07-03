@@ -29,7 +29,7 @@ class EndUser(TimestampModel):
 
     # Contact - mobile is unique
     mobile = models.CharField(
-        blank=True, 
+        blank=True,
         max_length=20,
         validators=[
             RegexValidator(

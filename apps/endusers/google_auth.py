@@ -32,5 +32,6 @@ def verify_google_token(token: str) -> dict:
         }
     except ValueError as e:
         import traceback
+
         traceback.print_exc()
         raise ValueError(f"Invalid Google token: {str(e)}")

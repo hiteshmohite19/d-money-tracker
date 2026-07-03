@@ -67,8 +67,7 @@ class AuthViewSet(viewsets.ViewSet):
     @action(detail=False, methods=["post"], url_path="signin")
     def signin(self, request):
         google_token = request.data.get("access_token")
-        print(request.data
-              )
+        print(request.data)
         if not google_token:
             return Response(
                 {"error": "google_token is required"}, status=status.HTTP_400_BAD_REQUEST

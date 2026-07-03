@@ -1,15 +1,9 @@
-from datetime import date
-
 from django.db import transaction
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from apps.categories.models import Category
-
-from .google_auth import verify_google_token
-from .jwt_utils import decode_refresh_token, generate_token, generate_tokens
 from .models import EndUser, UserCategories, UserMonthlyBudget
 from .serializers import (
     EndUserListSerializer,
@@ -18,60 +12,7 @@ from .serializers import (
     UserCategoriesCreateUpdateSerializer,
     UserCategoriesListSerializer,
 )
-
-
-def _create_user_categories(user):
-    """
-    Private method to create user categories for a new user.
-
-    Fetches all active categories from the Category table and creates
-    corresponding entries in the UserCategories table for the given user.
-
-    Args:
-        user: EndUser instance
-    """
-    print("_create_user_categories ", user)
-    # Get all active categories
-    active_categories = Category.objects.filter(active=True)
-
-    # Create UserCategories entries for each active category
-    user_categories_to_create = []
-    for category in active_categories:
-        user_category = UserCategories(
-            user_id=user.id,  # Pass UUID, not EndUser object
-            name=category.name,
-            created_by=user.id,
-            updated_by=user.id,
-        )
-        user_categories_to_create.append(user_category)
-
-    # Bulk create all user categories
-    if user_categories_to_create:
-        UserCategories.objects.bulk_create(user_categories_to_create)
-
-
-def _sync_monthly_budget(user):
-    today = date.today()
-    income = str(user.income or "0")
-    expense = str(user.estimated_expense or "0")
-
-    last = (
-        UserMonthlyBudget.objects.filter(user_id=user, active=True).order_by("-created_at").first()
-    )
-
-    if last and last.income == income and last.expense == expense:
-        return
-
-    UserMonthlyBudget.objects.filter(user_id=user).update(active=False)
-
-    UserMonthlyBudget.objects.create(
-        user_id=user,
-        income=income,
-        expense=expense,
-        month=today.strftime("%B"),
-        year=str(today.year),
-        active=True,
-    )
+from .utils import create_user_categories, sync_monthly_budget
 
 
 class EndUserViewSet(viewsets.ModelViewSet):
@@ -79,187 +20,23 @@ class EndUserViewSet(viewsets.ModelViewSet):
     ViewSet for EndUser model.
 
     Custom Endpoints:
-    - POST /register/ - Register a new user (public)
-    - POST /login/ - Login with mobile (public)
     - POST /update-user/ - Update authenticated user
     - POST /deactivate/ - Deactivate authenticated user
+    - GET /profile/ - Get authenticated user details
+    - POST /verify-otp/ - Verify OTP
     """
 
     queryset = EndUser.objects.all()
 
     def get_permissions(self):
-        public_actions = ["register", "login", "refresh_token", "verify_otp"]
-        if self.action in public_actions:
+        if self.action == "verify_otp":
             return [AllowAny()]
         return [IsAuthenticated()]
 
     def get_serializer_class(self):
         if self.action == "list":
             return EndUserListSerializer
-        # if self.action in ["create", "update", "partial_update", "register", "update_user"]:
-        #     return EndUserCreateUpdateSerializer
         return EndUserSerializer
-
-    @action(detail=False, methods=["post"], url_path="register")
-    def register(self, request):
-        """POST /register/ - Register a new user and return JWT token."""
-        with transaction.atomic():
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-
-            user = serializer.instance
-
-            # Create user categories from system categories
-            _create_user_categories(user)
-            _sync_monthly_budget(user)
-
-        # Generate tokens (outside transaction as it's read-only)
-        tokens = generate_tokens(user)
-
-        # Get user categories
-        user_categories = UserCategories.objects.filter(
-            user_id=user.id,
-            is_deleted=False,
-        )
-        categories_serializer = UserCategoriesListSerializer(user_categories, many=True)
-
-        response_serializer = EndUserSerializer(user)
-        return Response(
-            {
-                "user": response_serializer.data,
-                "access_token": tokens["access_token"],
-                "refresh_token": tokens["refresh_token"],
-                "user_categories": categories_serializer.data,
-            },
-            status=status.HTTP_201_CREATED,
-        )
-
-    @action(detail=False, methods=["post"], url_path="login")
-    def login(self, request):
-        """POST /login/ - Login with mobile and return JWT token."""
-        mobile = request.data.get("mobile")
-
-        if not mobile:
-            return Response(
-                {"error": "mobile is required"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        try:
-            user = EndUser.objects.get(mobile=mobile)
-        except EndUser.DoesNotExist:
-            return Response(
-                {"error": "User not found"},
-                status=status.HTTP_404_NOT_FOUND,
-            )
-
-        if not user.is_active:
-            return Response(
-                {"error": "User account is deactivated"},
-                status=status.HTTP_403_FORBIDDEN,
-            )
-
-        # Generate access and refresh tokens
-        tokens = generate_tokens(user)
-
-        # Get user categories
-        user_categories = UserCategories.objects.filter(
-            user_id=user.id,
-            is_deleted=False,
-        )
-        categories_serializer = UserCategoriesListSerializer(user_categories, many=True)
-
-        response_serializer = EndUserSerializer(user)
-        return Response(
-            {
-                "user": response_serializer.data,
-                "access_token": tokens["access_token"],
-                "refresh_token": tokens["refresh_token"],
-                "user_categories": categories_serializer.data,
-            },
-            status=status.HTTP_200_OK,
-        )
-
-        # @action(detail=False, methods=["post"], url_path="signin")
-        # def signin(self, request):
-        """POST /signin/ - Sign in with Google token."""
-        google_token = request.data.get("google_token")
-
-        if not google_token:
-            return Response(
-                {"error": "google_token is required"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        try:
-            # Verify Google token and extract user info
-            user_info = verify_google_token(google_token)
-        except ValueError as e:
-            return Response(
-                {"error": str(e)},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        # Extract user details from Google token
-        email = user_info.get("email")
-        given_name = user_info.get("given_name", "")
-        family_name = user_info.get("family_name", "")
-        email_verified = user_info.get("email_verified", False)
-
-        if not email:
-            return Response(
-                {"error": "Invalid email id"},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-
-        # Check if user exists by email
-        try:
-            user = EndUser.objects.get(email=email)
-            # User exists, update verification status if needed
-            if email_verified and not user.email_verified:
-                user.email_verified = True
-                user.save()
-            created = False
-        except EndUser.DoesNotExist:
-            # Create new user from Google info using serializer
-            user_data = {
-                "first_name": given_name or "User",
-                "last_name": family_name or "",
-                "email": email,
-                "email_verified": email_verified,
-                "is_active": True,
-            }
-
-            serializer = EndUserSerializer(data=user_data)
-            serializer.is_valid(raise_exception=True)
-            user = serializer.save()
-            created = True
-
-            # Create user categories from system categories
-            _create_user_categories(user)
-
-        # Generate access and refresh tokens
-        tokens = generate_tokens(user)
-
-        # Get user categories
-        user_categories = UserCategories.objects.filter(
-            user_id=user.id,
-            is_deleted=False,
-        )
-        categories_serializer = UserCategoriesListSerializer(user_categories, many=True)
-
-        response_serializer = EndUserSerializer(user)
-        return Response(
-            {
-                "user": response_serializer.data,
-                "access_token": tokens["access_token"],
-                "refresh_token": tokens["refresh_token"],
-                "created": created,
-                "user_categories": categories_serializer.data,
-            },
-            status=status.HTTP_201_CREATED if created else status.HTTP_200_OK,
-        )
 
     @action(detail=False, methods=["post"], url_path="update-user")
     def update_user(self, request):
@@ -268,7 +45,7 @@ class EndUserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        _sync_monthly_budget(serializer.instance)
+        sync_monthly_budget(serializer.instance)
 
         response_serializer = EndUserSerializer(serializer.instance)
         return Response(response_serializer.data)
@@ -393,8 +170,7 @@ class EndUserViewSet(viewsets.ModelViewSet):
                 serializer.save()
                 user = serializer.instance
 
-                # Create user categories from system categories
-                _create_user_categories(user)
+                create_user_categories(user)
 
             # Generate tokens (outside transaction as it's read-only)
         tokens = generate_tokens(user)

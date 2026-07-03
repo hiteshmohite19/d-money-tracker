@@ -1,29 +1,26 @@
 """Google OAuth authentication utilities."""
 
+from django.conf import settings
 from google.auth.transport import requests
 from google.oauth2 import id_token
 
 
-def verify_google_token(token: str, client_id: str = None) -> dict:
+def verify_google_token(token: str) -> dict:
     """
-    Verify a Google OAuth token and return user information.
-
-    Args:
-        token: The Google ID token to verify
-        client_id: Optional Google OAuth client ID for verification
+    Verify a Google OAuth ID token using GOOGLE_CLIENT_ID from settings.
 
     Returns:
-        dict: User information from the token (email, name, etc.)
+        dict: User information extracted from the token.
 
     Raises:
-        ValueError: If the token is invalid
+        ValueError: If the token is invalid or GOOGLE_CLIENT_ID is not set.
     """
-    try:
-        # Verify the token
-        # If client_id is provided, it will verify the audience matches
-        idinfo = id_token.verify_oauth2_token(token, requests.Request(), client_id)
+    client_id = getattr(settings, "GOOGLE_CLIENT_ID", None)
+    if not client_id:
+        raise ValueError("GOOGLE_CLIENT_ID is not configured in settings")
 
-        # Token is valid, return user info
+    try:
+        idinfo = id_token.verify_oauth2_token(token, requests.Request(), client_id)
         return {
             "email": idinfo.get("email"),
             "email_verified": idinfo.get("email_verified", False),
@@ -31,8 +28,9 @@ def verify_google_token(token: str, client_id: str = None) -> dict:
             "given_name": idinfo.get("given_name", ""),
             "family_name": idinfo.get("family_name", ""),
             "picture": idinfo.get("picture", ""),
-            "sub": idinfo.get("sub"),  # Google user ID
+            "sub": idinfo.get("sub"),
         }
     except ValueError as e:
-        # Invalid token
+        import traceback
+        traceback.print_exc()
         raise ValueError(f"Invalid Google token: {str(e)}")

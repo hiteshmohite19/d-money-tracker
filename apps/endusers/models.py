@@ -29,6 +29,7 @@ class EndUser(TimestampModel):
 
     # Contact - mobile is unique
     mobile = models.CharField(
+        blank=True, 
         max_length=20,
         validators=[
             RegexValidator(
@@ -101,11 +102,11 @@ class EndUser(TimestampModel):
         verbose_name_plural = "End Users"
         ordering = ["-created_at"]
         indexes = [
-            models.Index(fields=["mobile"]),
             models.Index(fields=["email"]),
             models.Index(fields=["is_active"]),
-            models.Index(fields=["mobile_verified"]),
-            models.Index(fields=["email_verified"]),
+            models.Index(fields=["mobile"]),
+            models.Index(fields=["first_name"]),
+            models.Index(fields=["last_name"]),
         ]
 
     def __str__(self):

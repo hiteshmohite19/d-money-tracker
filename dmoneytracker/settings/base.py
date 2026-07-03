@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "corsheaders",
     # Project apps
     "apps.core",
+    "apps.auth",
     "apps.categories",
     "apps.endusers",
     "apps.subcategories",
@@ -210,6 +211,11 @@ JWT_SECRET = config("JWT_SECRET", default=SECRET_KEY)
 JWT_ALGORITHM = "HS256"
 JWT_EXPIRATION_HOURS = config("JWT_EXPIRATION_HOURS", default=24, cast=int)
 JWT_REFRESH_EXPIRATION_DAYS = config("JWT_REFRESH_EXPIRATION_DAYS", default=30, cast=int)
+
+# ---------------------------------------------------------------------------
+# Google OAuth
+# ---------------------------------------------------------------------------
+GOOGLE_CLIENT_ID = config("GOOGLE_CLIENT_ID", default="")
 
 # ---------------------------------------------------------------------------
 # CORS

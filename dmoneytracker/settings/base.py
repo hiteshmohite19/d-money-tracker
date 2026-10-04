@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     "apps.subcategories",
     "apps.transactions",
     "apps.wishlist",
+    "apps.reports",
 ]
 
 # ---------------------------------------------------------------------------

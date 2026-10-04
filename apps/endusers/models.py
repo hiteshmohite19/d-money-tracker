@@ -83,6 +83,13 @@ class EndUser(TimestampModel):
         blank=True,
         help_text="Available balance for the current month (auto-updated)",
     )
+    account_type = models.ForeignKey(
+        "appauth.AccountType",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        help_text="User's account type",
+    )
 
     # Audit fields
     created_by = models.UUIDField(

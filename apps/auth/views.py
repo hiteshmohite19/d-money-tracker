@@ -4,6 +4,12 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
+from .throttles import (
+    LoginRateThrottle,
+    RefreshTokenRateThrottle,
+    RegisterRateThrottle,
+    SigninRateThrottle,
+)
 from apps.endusers.google_auth import verify_google_token
 from apps.endusers.jwt_utils import decode_refresh_token, generate_token, generate_tokens
 from apps.endusers.models import EndUser, UserCategories
@@ -14,7 +20,7 @@ from apps.endusers.utils import create_user_categories, sync_monthly_budget
 class AuthViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]
 
-    @action(detail=False, methods=["post"], url_path="register")
+    @action(detail=False, methods=["post"], url_path="register", throttle_classes=[RegisterRateThrottle])
     def register(self, request):
         with transaction.atomic():
             serializer = EndUserSerializer(data=request.data)
@@ -36,7 +42,7 @@ class AuthViewSet(viewsets.ViewSet):
             status=status.HTTP_201_CREATED,
         )
 
-    @action(detail=False, methods=["post"], url_path="login")
+    @action(detail=False, methods=["post"], url_path="login", throttle_classes=[LoginRateThrottle])
     def login(self, request):
         mobile = request.data.get("mobile")
         if not mobile:
@@ -64,7 +70,7 @@ class AuthViewSet(viewsets.ViewSet):
             status=status.HTTP_200_OK,
         )
 
-    @action(detail=False, methods=["post"], url_path="signin")
+    @action(detail=False, methods=["post"], url_path="signin", throttle_classes=[SigninRateThrottle])
     def signin(self, request):
         google_token = request.data.get("access_token")
         if not google_token:
@@ -119,7 +125,7 @@ class AuthViewSet(viewsets.ViewSet):
             status=status.HTTP_201_CREATED if created else status.HTTP_200_OK,
         )
 
-    @action(detail=False, methods=["post"], url_path="refresh-token")
+    @action(detail=False, methods=["post"], url_path="refresh-token", throttle_classes=[RefreshTokenRateThrottle])
     def refresh_token(self, request):
         refresh_token = request.data.get("refresh_token")
         if not refresh_token:

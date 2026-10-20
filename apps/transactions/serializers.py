@@ -117,8 +117,30 @@ class TransactionCreateUpdateSerializer(serializers.ModelSerializer):
             "is_deleted",
         ]
 
+    def validate_amount(self, value):
+        if value <= 0:
+            raise serializers.ValidationError("Amount must be greater than zero.")
+        return value
+
+    def validate_date(self, value):
+        from datetime import date
+        if value > date.today():
+            raise serializers.ValidationError("Transaction date cannot be in the future.")
+        return value
+
+    def validate_user_category(self, value):
+        request = self.context.get("request")
+        if request and value.user_id != request.user.id:
+            raise serializers.ValidationError("Category does not belong to the authenticated user.")
+        return value
+
+    def validate_sub_category(self, value):
+        request = self.context.get("request")
+        if request and value.user_id != request.user.id:
+            raise serializers.ValidationError("Sub-category does not belong to the authenticated user.")
+        return value
+
     def validate(self, data):
-        """Validate that EMI fields are provided when transaction_type is EMI."""
         from .models import TransactionType
 
         transaction_type = data.get("transaction_type")
